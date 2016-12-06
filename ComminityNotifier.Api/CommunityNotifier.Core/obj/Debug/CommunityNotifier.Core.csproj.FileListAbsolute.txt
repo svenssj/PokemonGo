@@ -1,0 +1,11 @@
+C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Core\bin\Debug\CommunityNotifier.Core.dll
+C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Core\bin\Debug\CommunityNotifier.Core.pdb
+C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Core\obj\Debug\CommunityNotifier.Core.dll
+C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Core\obj\Debug\CommunityNotifier.Core.pdb
+C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Core\bin\Debug\CommunityNotifier.Core.dll.config
+C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Core\bin\Debug\EntityFramework.dll
+C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Core\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Core\bin\Debug\EntityFramework.xml
+C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Core\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Core\obj\Debug\CommunityNotifier.Core.Migrations.LetThereBeLight.resources
+C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Core\obj\Debug\CommunityNotifier.Core.csproj.GenerateResource.Cache
