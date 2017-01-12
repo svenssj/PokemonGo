@@ -13,7 +13,7 @@ namespace CommunityNotifier.Core.ApplicationService
             {
                 Area = AreaMapper.MapFromStringToEnum(area),
                 Locaiton = location,
-                PokemonNumber = pokemonId,
+                Pokemon = (PokemonEnum)pokemonId,
                 ReportTime = reportTime
             };
         }

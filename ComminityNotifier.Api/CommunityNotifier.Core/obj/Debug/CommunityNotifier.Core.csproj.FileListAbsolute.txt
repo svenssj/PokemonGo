@@ -9,3 +9,7 @@ C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Co
 C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Core\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Core\obj\Debug\CommunityNotifier.Core.Migrations.LetThereBeLight.resources
 C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Core\obj\Debug\CommunityNotifier.Core.csproj.GenerateResource.Cache
+C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Core\obj\Debug\CommunityNotifier.Core.csprojResolveAssemblyReference.cache
+C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Core\bin\Debug\Microsoft.Practices.Unity.dll
+C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Core\bin\Debug\Microsoft.Practices.Unity.xml
+C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Core\obj\Debug\CommunityNotifier.Core.Migrations.PokemonEnum.resources

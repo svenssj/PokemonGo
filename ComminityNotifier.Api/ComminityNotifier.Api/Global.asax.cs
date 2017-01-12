@@ -8,6 +8,8 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using CommunityNotifier.Core.ApplicationService;
 using Microsoft.Practices.Unity;
+using Microsoft.Practices.Unity.Mvc;
+
 
 namespace ComminityNotifier.Api
 {
@@ -17,14 +19,16 @@ namespace ComminityNotifier.Api
         {
             var unityContainer = new UnityContainer();
             AreaRegistration.RegisterAllAreas();
-            UnityConfig.RegisterComponents(unityContainer);
+            UnityConfig.RegisterTypes(unityContainer);
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            DependencyResolver.SetResolver(new UnityDependencyResolver(unityContainer));
+            GlobalConfiguration.Configuration.DependencyResolver =
+                new Unity.WebApi.UnityDependencyResolver(unityContainer);
         }
     }
-
 
 
 }

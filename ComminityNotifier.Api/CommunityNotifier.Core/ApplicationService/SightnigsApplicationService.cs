@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CommunityNotifier.Core.Domain.DomainService.Interface;
 using CommunityNotifier.Core.Domain.Model;
@@ -22,7 +23,7 @@ namespace CommunityNotifier.Core.ApplicationService
 
         public async Task<List<SightingsReport>> GetReports()
         {
-            return await _sightingsDomainService.GetSightingReports();
+            return (await _sightingsDomainService.GetSightingReports()).OrderByDescending(x=>x.ReportTime).ToList();
         }
 
         public async Task<List<string>> GetAreas()

@@ -9,12 +9,12 @@ using CommunityNotifier.Core.Domain.Model;
 namespace CommunityNotifier.Core.Domain.Repository
 {
     
-    public class SightingsRepository : ISightingsRepository
+    internal class SightingsRepository : ISightingsRepository
     {
         private readonly SightingsContext _sightingsContext;
         public SightingsRepository()
         {
-            _sightingsContext = new SightingsContext();;
+            _sightingsContext = new SightingsContext();
         }
 
         public void Dispose()
@@ -60,7 +60,7 @@ namespace CommunityNotifier.Core.Domain.Repository
         }
     }
 
-    public interface ISightingsRepository : IDisposable
+    internal interface ISightingsRepository : IDisposable
     {
         Task<List<SightingsReport>> GetReportsAsList();
         Guid AddReport(SightingsReport reportToAdd);

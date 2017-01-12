@@ -105,3 +105,5 @@ C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\ComminityNotifier.Ap
 C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\ComminityNotifier.Api\bin\Microsoft.Azure.AppService.ApiApps.Service.dll
 C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\ComminityNotifier.Api\bin\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\ComminityNotifier.Api\bin\System.IdentityModel.Tokens.Jwt.xml
+C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\ComminityNotifier.Api\bin\Microsoft.Practices.Unity.Mvc.dll
+C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\ComminityNotifier.Api\bin\Microsoft.Practices.Unity.Mvc.xml

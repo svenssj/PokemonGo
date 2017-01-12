@@ -48,7 +48,7 @@ namespace ComminityNotifier.Api.Controllers
 
             return sightings.Select(sightingsReport => new GetSightingsResponseObject
             {
-                Pokemon = sightingsReport.PokemonNumber, Area = sightingsReport.Area.ToString(), Location = sightingsReport.Locaiton, Time = sightingsReport.ReportTime
+                Pokemon = sightingsReport.Pokemon.ToString(), Area = sightingsReport.Area.ToString(), Location = sightingsReport.Locaiton, Time = sightingsReport.ReportTime
             }).ToList();
 
         }
@@ -64,7 +64,7 @@ namespace ComminityNotifier.Api.Controllers
         {
 
             if (pokemonNumber < 0 || pokemonNumber > 151)
-                return new ReportSightingsResponseObject("PokemonNumber is Invalid");
+                return new ReportSightingsResponseObject("Pokemon is Invalid");
             if (string.IsNullOrWhiteSpace(area))
                 return new ReportSightingsResponseObject("Area cannot be empty");
             if (string.IsNullOrWhiteSpace(location))
@@ -78,7 +78,7 @@ namespace ComminityNotifier.Api.Controllers
     public class GetSightingsResponseObject
     {
         public DateTime Time { get; set; }
-        public int Pokemon { get; set; }
+        public string Pokemon { get; set; }
         public string Area { get; set; }
         public string Location { get; set; }
     }

@@ -6,9 +6,9 @@ using CommunityNotifier.Core.Domain.Repository;
 
 namespace CommunityNotifier.Core.Domain.DomainService
 {
-    public class SightingsDomainService : ISightingsDomainService
+    internal class SightingsDomainService : ISightingsDomainService
     {
-        private ISightingsRepository _repository;
+        private readonly ISightingsRepository _repository;
         public SightingsDomainService(ISightingsRepository repository)
         {
             _repository = repository;
