@@ -24,7 +24,8 @@ namespace CommunityNotifier.Core.Domain.Repository
 
         public async Task<List<SightingsReport>> GetReportsAsList()
         {
-            return await _sightingsContext.SightingsReports.ToListAsync();
+            var now = DateTime.UtcNow;
+            return await _sightingsContext.SightingsReports.Where(rep=>(now.Subtract(rep.ReportTime).TotalMinutes<60)).ToListAsync();
         }
 
         public Guid AddReport(SightingsReport reportToAdd)
