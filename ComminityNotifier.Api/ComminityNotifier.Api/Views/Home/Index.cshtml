@@ -8,6 +8,7 @@
 <body>
 <div class="row">
     <div class="col-lg-7">
+        <h2>Rapporter</h2>
         @foreach (var sighting in Model.Sightings)
         {
             <div class="report">
@@ -18,13 +19,13 @@
                 <p>
                     <b>Inrapporterad:</b>
                 </p>
-                <p class="date">@sighting.ReportTime +  UTC"</p>
+                <p class="date">@sighting.ReportTime + UTC"</p>
                 <p>
                     <b>Vart:</b>
                 </p>
                 <p><span>@sighting.Area</span> - <span>@sighting.Locaiton</span></p>
             </div>
-            <hr />
+            <hr/>
         }
     </div>
     <div class="col-lg-5">
