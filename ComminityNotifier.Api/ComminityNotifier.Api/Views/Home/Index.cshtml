@@ -3,7 +3,15 @@
 <head>
     <title>Pokemon Go - Sighting Västerås</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".date").each(function () {
+                var date = new Date(this.textContent);
+                this.textContent = date.toLocaleString();
+                });
+
+        });
+    </script>
 </head>
 <body>
 <div class="row">
@@ -29,7 +37,7 @@
         }
     </div>
     <div class="col-lg-5">
-        <div class="well-lg">
+        <div class="well">
             <h2>Rapportera in</h2>
             <hr/>
             @using (@Html.BeginForm("AddReport", "Home", FormMethod.Post))
