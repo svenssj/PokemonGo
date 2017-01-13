@@ -7,26 +7,46 @@
 </head>
 <body>
 <div class="row">
+    <div class="col-lg-7">
+        @foreach (var sighting in Model.Sightings)
+        {
+            <div class="report">
+                <p>
+                    <b>Pokemon:</b>
+                </p>
+                <p>@sighting.PokemonName</p>
+                <p>
+                    <b>Inrapporterad:</b>
+                </p>
+                <p class="date">@sighting.ReportTime +  UTC"</p>
+                <p>
+                    <b>Vart:</b>
+                </p>
+                <p><span>@sighting.Area</span> - <span>@sighting.Locaiton</span></p>
+            </div>
+            <hr />
+        }
+    </div>
     <div class="col-lg-5">
         <div class="well-lg">
             <h2>Rapportera in</h2>
             <hr/>
-          @using( @Html.BeginForm("AddReport","Home", FormMethod.Post))
+            @using (@Html.BeginForm("AddReport", "Home", FormMethod.Post))
             {<div class="form-group">
-                    <label >Pokemon:</label>
-                    <select class="form-control" name="pokemon">
-                        @foreach (var pkmn in Model.Pokemons)
-                        {
-                            <option value=@((int)pkmn)>@pkmn</option>
-                        }
-                    </select>
-                </div>
+                 <label >Pokemon:</label>
+                 <select class="form-control" name="pokemon">
+                     @foreach (var pkmn in Model.Pokemons)
+                     {
+                         <option value=@((int) pkmn)>@pkmn</option>
+                     }
+                 </select>
+             </div>
                 <div class="form-group">
                     <label>Område:</label>
                     <select class="form-control" name="area">
                         @foreach (var area in Model.Areas)
                         {
-                            <option value=@((int)area)>@area</option>
+                            <option value=@((int) area)>@area</option>
                         }
                     </select>
                 </div>
@@ -34,7 +54,7 @@
                     <label for="location">Plats:</label>
                     <input type="text" name="location" class="form-control" id="location">
                 </div>
-                
+
                 <input class="btn btn-success" type="submit" value="Skicka rapport!"/>
             }
         </div>
@@ -42,23 +62,7 @@
 </div>
     
 
-<div class="row">
-    @foreach (var sighting in Model.Sightings)
-    {
-        <div class="report">
-            <p><b>Pokemon:</b>
-            </p>
-            <p>@sighting.PokemonName</p>
-            <p><b>Inrapporterad:</b>
-            </p>
-            <p class="date">@sighting.ReportTime +  UTC"</p>
-            <p><b>Vart:</b>
-            </p>
-            <p><span>@sighting.Area</span> - <span>@sighting.Locaiton</span></p>
-        </div>
-        <hr/>
-        }
-</div>
+
 
 </body>
 </html>
