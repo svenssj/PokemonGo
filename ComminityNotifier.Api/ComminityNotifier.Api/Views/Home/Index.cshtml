@@ -3,11 +3,14 @@
     <title>Pokemon Go - Sighting Västerås</title>
 
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
+            var now = new Date();
             $(".date").each(function () {
                 var date = new Date(this.textContent);
                 this.textContent = date.toLocaleString();
-                });
+                var diff = date.getTime() - now.getTime();
+                this.innerHTML += "<span class='red'> " + Math.round(diff / 60000) + "min sedan</span>";
+            });
 
         });
     </script>
