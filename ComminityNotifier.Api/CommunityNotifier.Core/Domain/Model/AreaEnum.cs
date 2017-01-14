@@ -26,7 +26,8 @@ namespace CommunityNotifier.Core.Domain.Model
         Gryta,
         Skälby,
         Hamre,
-        Notudden
+        Notudden,
+        Hammarby
     }
 
 
