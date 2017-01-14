@@ -11,8 +11,25 @@ namespace CommunityNotifier.Core.Domain.Model
         Skiljebo,
         Haga,
         Malmaberg,
-        Hemdal
+        Hemdal,
+        Logarangen,
+        Hamnen,
+        Raby,
+        Vetterslund,
+        Klockartorpet,
+        Backby,
+        Vallby,
+        Pettersberg,
+        Nordanby,
+        Gideonsberg,
+        Skallberget,
+        Gryta,
+        Skälby,
+        Hamre,
+        Notudden
     }
+
+
     public static class AreaMapper
     {
         public static AreaEnum MapFromStringToEnum(string area)
