@@ -16,9 +16,10 @@ namespace CommunityNotifier.Core.ApplicationService
             _sightingsDomainService = sightingsDomainService;
         }
 
-        public async Task<int> ReportSighting(int pokemonId, string area, string location, DateTime reportTime)
+        public async Task<int> ReportSighting(int pokemonId, int areaId, string location, DateTime reportTime)
         {
-            return await _sightingsDomainService.AddSightingsReport(SightingsMapper.MapToEntity(pokemonId, area, location, reportTime));
+            
+            return await _sightingsDomainService.AddSightingsReport(pokemonId,areaId,location,reportTime);
         }
 
         public async Task<List<SightingsReport>> GetReports()
@@ -26,20 +27,14 @@ namespace CommunityNotifier.Core.ApplicationService
             return (await _sightingsDomainService.GetSightingReports()).OrderByDescending(x=>x.ReportTime).ToList();
         }
 
-        public async Task<List<string>> GetAreas()
+        public async Task<List<Area>> GetAreas()
         {
-            var list = new List<string>();
-            list.Add(AreaEnum.Bjurhovda.ToString());
-            list.Add(AreaEnum.Centrum.ToString());
-            list.Add(AreaEnum.Djakneberget.ToString());
-            list.Add(AreaEnum.Haga.ToString());
-            list.Add(AreaEnum.Hemdal.ToString());
-            list.Add(AreaEnum.Malmaberg.ToString());
-            list.Add(AreaEnum.Oxbacken.ToString());
-            list.Add(AreaEnum.Skiljebo.ToString());
-            list.Add(AreaEnum.Viksang.ToString());
+            return (await _sightingsDomainService.GetAreas()).OrderBy(a => a.AreaName).ToList();
+        }
 
-            return await Task.FromResult(list);
+        public async Task<List<Pokemon>> GetPokemons()
+        {
+            return await _sightingsDomainService.GetPokemons();
         }
     }
 }

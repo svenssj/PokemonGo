@@ -1,15 +1,21 @@
+using CommunityNotifier.Core.Domain.Model;
+
 namespace CommunityNotifier.Core.Migrations
 {
+    using System;
+    using System.Data.Entity;
     using System.Data.Entity.Migrations;
+    using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<CommunityNotifier.Core.Domain.Repository.SightingsContext>
+    internal sealed class Configuration :
+        DbMigrationsConfiguration<CommunityNotifier.Core.Domain.Repository.SightingsContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Domain.Repository.SightingsContext context)
+        protected override void Seed(CommunityNotifier.Core.Domain.Repository.SightingsContext context)
         {
             //  This method will be called after migrating to the latest version.
 
@@ -23,6 +29,9 @@ namespace CommunityNotifier.Core.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+
+            SeedHelper.SeedAreas(context);
+            SeedHelper.SeedPokemon(context);
         }
     }
 }

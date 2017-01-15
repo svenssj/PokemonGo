@@ -58,29 +58,37 @@
     <Compile Include="Common\Mappers\SightingsMapper.cs" />
     <Compile Include="ApplicationService\SightnigsApplicationService.cs" />
     <Compile Include="Configuration\UnityConfig.cs" />
-    <Compile Include="Domain\Model\AreaEnum.cs" />
+    <Compile Include="Domain\Model\Area.cs" />
     <Compile Include="Domain\DomainService\Interface\ISightingsDomainService.cs" />
     <Compile Include="Domain\DomainService\SightingsDomainService.cs" />
     <Compile Include="Domain\Model\Pokemon.cs" />
     <Compile Include="Domain\Model\SightingsReport.cs" />
-    <Compile Include="Domain\Repository\SightingsRepository.cs" />
+    <Compile Include="Domain\Repository\Repository.cs" />
     <Compile Include="Migrations\201612061936126_LetThereBeLight.cs" />
     <Compile Include="Migrations\201612061936126_LetThereBeLight.Designer.cs">
       <DependentUpon>201612061936126_LetThereBeLight.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201701122159048_PokemonEnum.cs" />
-    <Compile Include="Migrations\201701122159048_PokemonEnum.Designer.cs">
-      <DependentUpon>201701122159048_PokemonEnum.cs</DependentUpon>
+    <Compile Include="Migrations\201701150709429_DatabaseReworked.cs" />
+    <Compile Include="Migrations\201701150709429_DatabaseReworked.Designer.cs">
+      <DependentUpon>201701150709429_DatabaseReworked.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701150929152_Fixes.cs" />
+    <Compile Include="Migrations\201701150929152_Fixes.Designer.cs">
+      <DependentUpon>201701150929152_Fixes.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations\SeedHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201612061936126_LetThereBeLight.resx">
       <DependentUpon>201612061936126_LetThereBeLight.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201701122159048_PokemonEnum.resx">
-      <DependentUpon>201701122159048_PokemonEnum.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201701150709429_DatabaseReworked.resx">
+      <DependentUpon>201701150709429_DatabaseReworked.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701150929152_Fixes.resx">
+      <DependentUpon>201701150929152_Fixes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

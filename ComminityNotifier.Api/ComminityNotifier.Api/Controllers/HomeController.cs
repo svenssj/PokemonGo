@@ -6,6 +6,7 @@ using ComminityNotifier.Api.Models;
 using CommunityNotifier.Core.ApplicationService;
 using CommunityNotifier.Core.Domain.Model;
 
+
 namespace ComminityNotifier.Api.Controllers
 {
     public class HomeController : Controller
@@ -29,34 +30,36 @@ namespace ComminityNotifier.Api.Controllers
             {
                 sightingsViewModel.Sightings.Add(new SightingsReportDTO()
                 {
-                    Area = sightingsReport.Area.ToString(),
+                    Area = new AreaDTO() { AreaName = sightingsReport.Area.AreaName,Id=sightingsReport.Area.AreaId},
                     Locaiton = sightingsReport.Locaiton,
-                    PokemonName = sightingsReport.Pokemon.ToString(),
+                    PokemonName = sightingsReport.Pokemon.PokemonName,
                     ReportTime = sightingsReport.ReportTime
                 });
             }
 
-            sightingsViewModel.Pokemons = new List<PokemonEnum>();
-
-            foreach (PokemonEnum e in Enum.GetValues(typeof(PokemonEnum)))
+            sightingsViewModel.Pokemons = new List<PokemonDTO>();
+            var pokemons = await _applicationService.GetPokemons();
+            foreach (var p in pokemons)
             {
-                sightingsViewModel.Pokemons.Add(e);
+                sightingsViewModel.Pokemons.Add(new PokemonDTO() {Name = p.PokemonName,Number = p.PokemonNumber});
             }
-            sightingsViewModel.Areas = new List<AreaEnum>();
-            foreach (AreaEnum e in Enum.GetValues(typeof(AreaEnum)))
+
+            sightingsViewModel.Areas = new List<AreaDTO>();
+           var areas= await _applicationService.GetAreas();
+            foreach (var area in areas)
             {
-                sightingsViewModel.Areas.Add(e);
+                sightingsViewModel.Areas.Add(new AreaDTO() {AreaName = area.AreaName,Id=area.AreaId});
             }
 
             return View(sightingsViewModel);
         }
 
 
-        public async Task<ActionResult> AddReport(int pokemon, int area, string location)
+        public async Task<ActionResult> AddReport(int pokemon, int areaId, string location)
         {
             try
             {
-               await _applicationService.ReportSighting(pokemon, ((AreaEnum)area).ToString(), location, DateTime.UtcNow);
+               await _applicationService.ReportSighting(pokemon, areaId, location, DateTime.UtcNow);
             }
             catch (Exception)
             {
@@ -66,5 +69,11 @@ namespace ComminityNotifier.Api.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+    }
+
+    public class AreaDTO
+    {
+        public int Id { get; set; }
+        public string AreaName { get; set; }
     }
 }
