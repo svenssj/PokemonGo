@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CommunityNotifier.Core.Domain.Model;
 
@@ -6,7 +7,9 @@ namespace CommunityNotifier.Core.Domain.DomainService.Interface
 {
     public interface ISightingsDomainService
     {
-        Task<int> AddSightingsReport(SightingsReport sighting);
+        Task<int> AddSightingsReport(int pokemonId, int areaId, string location, DateTime reportTime);
         Task<List<SightingsReport>> GetSightingReports();
+        Task<List<Area>>  GetAreas();
+        Task<List<Pokemon>> GetPokemons();
     }
 }

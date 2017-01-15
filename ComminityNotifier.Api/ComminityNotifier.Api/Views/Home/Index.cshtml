@@ -40,7 +40,7 @@
                 <p>
                     <b>Vart:</b>
                 </p>
-                <p><span>@sighting.Area</span> - <span>@sighting.Locaiton</span></p>
+                <p><span>@sighting.Area.AreaName</span> - <span>@sighting.Locaiton</span></p>
             </div>
             <hr/>
         }
@@ -54,18 +54,22 @@
             {<div class="form-group">
                  <label >Pokemon:</label>
                  <select class="form-control" name="pokemon">
-                     @foreach (var pkmn in Model.Pokemons)
+                     @if (Model.Pokemons != null)
                      {
-                         <option value=@((int) pkmn)>@pkmn</option>
+                         foreach (var pkmn in Model.Pokemons)
+                         {
+                             <option value=@(pkmn.Number)>@pkmn.Name</option>
+                         }
                      }
+}
                  </select>
              </div>
                 <div class="form-group">
                     <label>Område:</label>
-                    <select class="form-control" name="area">
+                    <select class="form-control" name="areaId">
                         @foreach (var area in Model.Areas)
                         {
-                            <option value=@((int) area)>@area</option>
+                            <option value=@(area.Id)>@area.AreaName</option>
                         }
                     </select>
                 </div>

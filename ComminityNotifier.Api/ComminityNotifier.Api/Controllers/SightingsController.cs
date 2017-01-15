@@ -17,28 +17,28 @@ namespace ComminityNotifier.Api.Controllers
 
         [HttpPost]
         [Route("AddSighting")]
-        public async Task<ReportSightingsResponseObject> RepostSightning(int pokemonNumber, string area, string location)
+        public async Task<ReportSightingsResponseObject> RepostSightning(int pokemonNumber, int area, string location)
         {
 
-            var valid = ValidateSightingsReport(pokemonNumber, area, location).IsValid;
-            if(valid)
-            try
-            {
-                var response = await _appService.ReportSighting(pokemonNumber, area, location, DateTime.UtcNow);
-                
-                    return new ReportSightingsResponseObject();
-                
-            }
-            catch (Exception e)
-            {
-                return new ReportSightingsResponseObject(e.Message);
+            var valid = ValidateSightingsReport(pokemonNumber,location).IsValid;
+            if (valid)
+                try
+                {
+                    var response = await _appService.ReportSighting(pokemonNumber, area, location, DateTime.UtcNow);
 
-            }
+                    return new ReportSightingsResponseObject();
+
+                }
+                catch (Exception e)
+                {
+                    return new ReportSightingsResponseObject(e.Message);
+
+                }
             return new ReportSightingsResponseObject
             {
                 ErrorMessage = "An error Has occured"
             };
-            
+
         }
         [HttpGet]
         [Route("GetSightings")]
@@ -48,25 +48,37 @@ namespace ComminityNotifier.Api.Controllers
 
             return sightings.Select(sightingsReport => new GetSightingsResponseObject
             {
-                Pokemon = sightingsReport.Pokemon.ToString(), Area = sightingsReport.Area.ToString(), Location = sightingsReport.Locaiton, Time = sightingsReport.ReportTime
+                Pokemon = sightingsReport.Pokemon.ToString(),
+                Area = sightingsReport.Area.ToString(),
+                Location = sightingsReport.Locaiton,
+                Time = sightingsReport.ReportTime
             }).ToList();
 
         }
         [HttpGet]
         [Route("GetValidAreas")]
-        public async Task<List<string>> GetValidAreas()
+        public async Task<List<AreaDTO>> GetValidAreas()
         {
-            return await _appService.GetAreas();
+            var areas = await _appService.GetAreas();
+
+            var response = new List<AreaDTO>();
+            foreach (var area in areas)
+            {
+                response.Add(new AreaDTO
+                {
+                    AreaName = area.AreaName,
+                    Id = area.AreaId
+                });
+            }
+            return response;
 
         }
 
-        private ReportSightingsResponseObject ValidateSightingsReport(int pokemonNumber, string area, string location)
+        private ReportSightingsResponseObject ValidateSightingsReport(int pokemonNumber, string location)
         {
 
             if (pokemonNumber < 0 || pokemonNumber > 151)
                 return new ReportSightingsResponseObject("Pokemon is Invalid");
-            if (string.IsNullOrWhiteSpace(area))
-                return new ReportSightingsResponseObject("Area cannot be empty");
             if (string.IsNullOrWhiteSpace(location))
                 return new ReportSightingsResponseObject("Location cannot be empty");
 
