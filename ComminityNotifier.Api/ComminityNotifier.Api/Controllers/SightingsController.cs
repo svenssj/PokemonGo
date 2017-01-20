@@ -21,24 +21,24 @@ namespace ComminityNotifier.Api.Controllers
         {
 
             var valid = ValidateSightingsReport(pokemonNumber,location).IsValid;
-            if (valid)
-                try
+            if (!valid)
+                return new ReportSightingsResponseObject
                 {
-                    var response = await _appService.ReportSighting(pokemonNumber, area, location, DateTime.UtcNow);
-
-                    return new ReportSightingsResponseObject();
-
-                }
-                catch (Exception e)
-                {
-                    return new ReportSightingsResponseObject(e.Message);
-
-                }
-            return new ReportSightingsResponseObject
+                    ErrorMessage = "An error Has occured"
+                };
+            try
             {
-                ErrorMessage = "An error Has occured"
-            };
+                var response = await _appService.ReportSighting(pokemonNumber, area, location, DateTime.UtcNow);
 
+                return new ReportSightingsResponseObject();
+
+            }
+            catch (Exception e)
+            {
+                return new ReportSightingsResponseObject(e.Message);
+
+            }
+         
         }
         [HttpGet]
         [Route("GetSightings")]
@@ -48,8 +48,8 @@ namespace ComminityNotifier.Api.Controllers
 
             return sightings.Select(sightingsReport => new GetSightingsResponseObject
             {
-                Pokemon = sightingsReport.Pokemon.ToString(),
-                Area = sightingsReport.Area.ToString(),
+                Pokemon = sightingsReport.Pokemon.PokemonName,
+                Area = sightingsReport.Area.AreaName,
                 Location = sightingsReport.Locaiton,
                 Time = sightingsReport.ReportTime
             }).ToList();
