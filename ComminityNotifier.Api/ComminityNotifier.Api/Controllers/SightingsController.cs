@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -51,7 +52,7 @@ namespace ComminityNotifier.Api.Controllers
                 Pokemon = sightingsReport.Pokemon.PokemonName,
                 Area = sightingsReport.Area.AreaName,
                 Location = sightingsReport.Locaiton,
-                Time = sightingsReport.ReportTime.ToUniversalTime().ToString()
+                Time = sightingsReport.ReportTime.ToUniversalTime().ToString(CultureInfo.InvariantCulture)+"Z"
             }).ToList();
 
         }
