@@ -9,12 +9,14 @@ using CommunityNotifier.Core.Domain.Model;
 namespace CommunityNotifier.Core.Domain.Repository
 {
     
-    internal class SightingsRepository : ISightingsRepository
+    internal class Repository : IRepository
     {
         private readonly SightingsContext _sightingsContext;
-        public SightingsRepository()
+
+        public Repository()
         {
             _sightingsContext = new SightingsContext();
+         
         }
 
         public void Dispose()
@@ -22,11 +24,16 @@ namespace CommunityNotifier.Core.Domain.Repository
            _sightingsContext.Dispose();
         }
 
-        public async Task<List<SightingsReport>> GetReportsAsList()
+        public async Task<List<SightingsReport>> GetFreshReportsAsList()
         {
             var now = DateTime.UtcNow;
-            var list= await _sightingsContext.SightingsReports.ToListAsync();
+        
 
+            IQueryable<SightingsReport> query = _sightingsContext.SightingsReports;
+          query=  query.Include("Area");
+            query = query.Include("Pokemon");
+
+            var list = await query.ToListAsync();
             var newList = new List<SightingsReport>();
 
             foreach (var sightingsReport in list)
@@ -70,17 +77,35 @@ namespace CommunityNotifier.Core.Domain.Repository
         {
             return  await _sightingsContext.SaveChangesAsync();
         }
+
+        public async Task<List<Area>> GetAreasAsList()
+        {
+            return await _sightingsContext.Areas.ToListAsync();
+        }
+
+        public async Task<Pokemon> GetPokemonByNumber(int pokemonNumber)
+        {
+            return (await GetPokemons()).FirstOrDefault(p => p.PokemonNumber == pokemonNumber);
+        }
+
+        public async Task<List<Pokemon>> GetPokemons()
+        {
+            return await _sightingsContext.Pokemons.ToListAsync();
+        }
     }
 
-    internal interface ISightingsRepository : IDisposable
+    internal interface IRepository : IDisposable
     {
-        Task<List<SightingsReport>> GetReportsAsList();
+        Task<List<SightingsReport>> GetFreshReportsAsList();
         Guid AddReport(SightingsReport reportToAdd);
         void RemoveReport(Guid guid);
         void RemoveReport(SightingsReport reportToRemove);
         void SaveChanges();
         Task<int> SaveChangesAsync();
 
+       Task<List<Area>> GetAreasAsList();
+        Task<Pokemon> GetPokemonByNumber(int pokemonNumber);
+        Task<List<Pokemon>> GetPokemons();
     }
 
     public class SightingsContext : DbContext
@@ -91,7 +116,8 @@ namespace CommunityNotifier.Core.Domain.Repository
                 Database.SetInitializer<SightingsContext>(null);
         }
        public IDbSet<SightingsReport> SightingsReports { get; set; }
-
+        public IDbSet<Area> Areas { get; set; }
+        public IDbSet<Pokemon> Pokemons { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             // Database does not pluralize table names
@@ -99,6 +125,9 @@ namespace CommunityNotifier.Core.Domain.Repository
         }
 
     }
+ 
 
-  
+   
+
+
 }

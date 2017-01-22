@@ -7,13 +7,13 @@ namespace CommunityNotifier.Core.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class PokemonEnum : IMigrationMetadata
+    public sealed partial class DatabaseReworked : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(PokemonEnum));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(DatabaseReworked));
         
         string IMigrationMetadata.Id
         {
-            get { return "201701122159048_PokemonEnum"; }
+            get { return "201701150709429_DatabaseReworked"; }
         }
         
         string IMigrationMetadata.Source
