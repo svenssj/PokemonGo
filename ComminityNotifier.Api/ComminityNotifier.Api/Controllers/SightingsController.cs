@@ -52,7 +52,7 @@ namespace ComminityNotifier.Api.Controllers
                 Pokemon = sightingsReport.Pokemon.PokemonName,
                 Area = sightingsReport.Area.AreaName,
                 Location = sightingsReport.Locaiton,
-                Time = sightingsReport.ReportTime.ToUniversalTime().ToString(CultureInfo.InvariantCulture)+"Z"
+                Time = sightingsReport.ReportTime.ToString(CultureInfo.InvariantCulture)+"Z"
             }).ToList();
 
         }
