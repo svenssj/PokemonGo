@@ -48,7 +48,7 @@ namespace ComminityNotifier.Api.Controllers
 
             return sightings.Select(sightingsReport => new GetSightingsResponseObject
             {
-                Pokemon = sightingsReport.Pokemon.ToString(), Area = sightingsReport.Area.ToString(), Location = sightingsReport.Locaiton, Time = sightingsReport.ReportTime.ToUniversalTime().ToString()
+                Pokemon = sightingsReport.Pokemon.ToString(), Area = sightingsReport.Area.ToString(), Location = sightingsReport.Locaiton, Time = sightingsReport.ReportTime
             }).ToList();
 
         }
@@ -77,7 +77,7 @@ namespace ComminityNotifier.Api.Controllers
 
     public class GetSightingsResponseObject
     {
-        public string Time { get; set; }
+        public DateTime Time { get; set; }
         public string Pokemon { get; set; }
         public string Area { get; set; }
         public string Location { get; set; }
