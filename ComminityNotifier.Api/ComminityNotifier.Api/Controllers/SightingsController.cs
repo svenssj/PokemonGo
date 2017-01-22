@@ -51,7 +51,7 @@ namespace ComminityNotifier.Api.Controllers
                 Pokemon = sightingsReport.Pokemon.PokemonName,
                 Area = sightingsReport.Area.AreaName,
                 Location = sightingsReport.Locaiton,
-                Time = sightingsReport.ReportTime
+                Time = sightingsReport.ReportTime.ToUniversalTime().ToString()
             }).ToList();
 
         }
@@ -89,7 +89,7 @@ namespace ComminityNotifier.Api.Controllers
 
     public class GetSightingsResponseObject
     {
-        public DateTime Time { get; set; }
+        public string Time { get; set; }
         public string Pokemon { get; set; }
         public string Area { get; set; }
         public string Location { get; set; }
