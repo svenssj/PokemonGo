@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using CommunityNotifier.Core.ApplicationService;
@@ -29,10 +30,9 @@ namespace ComminityNotifier.Api.Controllers
                 };
             try
             {
-                var response = await _appService.ReportSighting(pokemonNumber, area, location, DateTime.UtcNow);
+                await _appService.ReportSighting(pokemonNumber, area, location, DateTime.UtcNow);
 
                 return new ReportSightingsResponseObject();
-
             }
             catch (Exception e)
             {
@@ -73,6 +73,15 @@ namespace ComminityNotifier.Api.Controllers
             }
             return response;
 
+        }
+
+        [HttpPost]
+        [Route("AddRegistrationId")]
+        public async Task<bool> RegisterOrUpdateDevice(string deviceId ,string registrationId)
+        {
+            if(string.IsNullOrWhiteSpace(registrationId)||string.IsNullOrWhiteSpace(deviceId))
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            return await _appService.AddRegistrationId(deviceId,registrationId);
         }
 
         private ReportSightingsResponseObject ValidateSightingsReport(int pokemonNumber, string location)

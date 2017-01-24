@@ -36,5 +36,10 @@ namespace CommunityNotifier.Core.ApplicationService
         {
             return await _sightingsDomainService.GetPokemons();
         }
+
+        public async Task<bool> AddRegistrationId(string deviceId, string registrationId)
+        {
+            return await _sightingsDomainService.AddRegistrationId(deviceId,registrationId);
+        }
     }
 }

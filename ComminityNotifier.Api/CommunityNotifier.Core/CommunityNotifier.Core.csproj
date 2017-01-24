@@ -45,6 +45,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -58,9 +59,12 @@
     <Compile Include="Common\Mappers\SightingsMapper.cs" />
     <Compile Include="ApplicationService\SightnigsApplicationService.cs" />
     <Compile Include="Configuration\UnityConfig.cs" />
+    <Compile Include="Domain\ExternalService\IFireBaseClient.cs" />
+    <Compile Include="Domain\ExternalService\IFirebaseService.cs" />
     <Compile Include="Domain\Model\Area.cs" />
     <Compile Include="Domain\DomainService\Interface\ISightingsDomainService.cs" />
     <Compile Include="Domain\DomainService\SightingsDomainService.cs" />
+    <Compile Include="Domain\Model\Device.cs" />
     <Compile Include="Domain\Model\Pokemon.cs" />
     <Compile Include="Domain\Model\SightingsReport.cs" />
     <Compile Include="Domain\Repository\Repository.cs" />
@@ -76,6 +80,14 @@
     <Compile Include="Migrations\201701150929152_Fixes.Designer.cs">
       <DependentUpon>201701150929152_Fixes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701241520383_devices.cs" />
+    <Compile Include="Migrations\201701241520383_devices.Designer.cs">
+      <DependentUpon>201701241520383_devices.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701242000589_deviceId.cs" />
+    <Compile Include="Migrations\201701242000589_deviceId.Designer.cs">
+      <DependentUpon>201701242000589_deviceId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\SeedHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,6 +101,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201701150929152_Fixes.resx">
       <DependentUpon>201701150929152_Fixes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701241520383_devices.resx">
+      <DependentUpon>201701241520383_devices.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701242000589_deviceId.resx">
+      <DependentUpon>201701242000589_deviceId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

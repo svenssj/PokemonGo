@@ -92,6 +92,31 @@ namespace CommunityNotifier.Core.Domain.Repository
         {
             return await _sightingsContext.Pokemons.ToListAsync();
         }
+
+        public async Task<List<Device>> GetDevices()
+        {
+            return  await _sightingsContext.Devices.ToListAsync();
+        }
+
+        public Device AddRegistrationId(string deviceId, string regId)
+        {
+            var tDevice = deviceId.Trim();
+            var tReg = regId.Trim();
+
+
+            var device = _sightingsContext.Devices.FirstOrDefault(d => d.DeviceId == tDevice);
+            if (device == null)
+                return _sightingsContext.Devices.Add(new Device() {DeviceId = tDevice, RegistrationId = tReg});
+            else if(device.RegistrationId!=tReg)
+            {
+                device.RegistrationId = tReg;
+
+                return device;
+                
+            }
+            return null;
+
+        }
     }
 
     internal interface IRepository : IDisposable
@@ -106,6 +131,8 @@ namespace CommunityNotifier.Core.Domain.Repository
        Task<List<Area>> GetAreasAsList();
         Task<Pokemon> GetPokemonByNumber(int pokemonNumber);
         Task<List<Pokemon>> GetPokemons();
+        Task<List<Device>> GetDevices();
+        Device AddRegistrationId(string deviceId, string regId);
     }
 
     public class SightingsContext : DbContext
@@ -118,6 +145,7 @@ namespace CommunityNotifier.Core.Domain.Repository
        public IDbSet<SightingsReport> SightingsReports { get; set; }
         public IDbSet<Area> Areas { get; set; }
         public IDbSet<Pokemon> Pokemons { get; set; }
+        public IDbSet<Device> Devices { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             // Database does not pluralize table names
@@ -125,9 +153,6 @@ namespace CommunityNotifier.Core.Domain.Repository
         }
 
     }
- 
 
    
-
-
 }

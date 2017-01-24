@@ -14,3 +14,5 @@ C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Co
 C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Core\obj\Debug\CommunityNotifier.Core.Migrations.DatabaseReworked.resources
 C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Core\obj\Debug\CommunityNotifier.Core.csprojResolveAssemblyReference.cache
 C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Core\obj\Debug\CommunityNotifier.Core.Migrations.Fixes.resources
+C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Core\obj\Debug\CommunityNotifier.Core.Migrations.devices.resources
+C:\Users\Jonis\Source\Repos\PokemonGo\ComminityNotifier.Api\CommunityNotifier.Core\obj\Debug\CommunityNotifier.Core.Migrations.deviceId.resources
