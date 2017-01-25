@@ -11,9 +11,10 @@ namespace ComminityNotifier.Api.Models
         public List<PokemonDTO> Pokemons { get; set; }
     }
 
-    public class PokemonDTO
+    public class NestListViewModel
     {
-        public int Number { get; set; }
-        public string Name { get; set; }
+        public List<NestReportDTO> NestReports { get; set; }
+        public List<AreaDTO> Areas { get; set; }
+        public List<PokemonDTO> Pokemons { get; set; }
     }
 }

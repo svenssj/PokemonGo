@@ -12,7 +12,7 @@ namespace CommunityNotifier.Core.Configuration
         {
             container.RegisterType<ISightnigsApplicationService, SightnigsApplicationService>();
             container.RegisterType<ISightingsDomainService, SightingsDomainService>();
-            container.RegisterType<IRepository, Repository>();
+            container.RegisterType<IRepository, SightingsRepository>();
         }
     }
 }

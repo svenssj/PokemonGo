@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ComminityNotifier.Api.Controllers;
 
 namespace ComminityNotifier.Api.Models
@@ -10,5 +11,17 @@ namespace ComminityNotifier.Api.Models
         public string Locaiton { get; set; }
         public DateTime ReportTime { get; set; }
     
+    }
+
+    public class NestReportDTO
+    {
+        public PokemonDTO Pokemon { get; set; }
+        public List<LocationDTO> Location { get; set; }
+    }
+
+    public class LocationDTO
+    {
+        public string Area { get; set; }
+        public string Spot { get; set; }
     }
 }

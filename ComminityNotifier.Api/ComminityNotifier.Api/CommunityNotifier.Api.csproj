@@ -278,7 +278,9 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Models\AreaDTO.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NestsController.cs" />
     <Compile Include="Controllers\SightingsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -286,6 +288,7 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\PokemonDTO.cs" />
     <Compile Include="Models\SightingsListViewModel.cs" />
     <Compile Include="Models\SightingsReportDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -354,6 +357,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Service References\Application Insights\ConnectedService.json" />
     <Content Include="Views\Home\Partials\View.cshtml" />
+    <Content Include="Views\Nests\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

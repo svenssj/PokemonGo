@@ -9,11 +9,11 @@ using CommunityNotifier.Core.Domain.Model;
 namespace CommunityNotifier.Core.Domain.Repository
 {
     
-    internal class Repository : IRepository
+    internal class SightingsRepository : IRepository
     {
         private readonly SightingsContext _sightingsContext;
 
-        public Repository()
+        public SightingsRepository()
         {
             _sightingsContext = new SightingsContext();
          
@@ -92,6 +92,51 @@ namespace CommunityNotifier.Core.Domain.Repository
         {
             return await _sightingsContext.Pokemons.ToListAsync();
         }
+
+        public async Task<Guid> AddNestReport(int pokemonid, int areaId, string spot)
+        {
+            var pokemon = await GetPokemonByNumber(pokemonid);
+            if (pokemon == null)
+                throw new IndexOutOfRangeException();
+            var area = (await GetAreasAsList()).First(a => a.AreaId == areaId);
+            if (area == null)
+                throw new IndexOutOfRangeException();
+      
+            var report =
+                (await GetNestReportsAsync()).FirstOrDefault(
+                    rep => rep.Pokemon.PokemonNumber == pokemonid);
+            //Add locaiton to existing nest
+            if (report!=null)
+            {
+               report.Locations.Add(new Location() {Area = area,LocationTimeStamp = DateTime.UtcNow,Spot = spot});
+                return report.Id;
+            }
+            else
+            {
+                var guid = Guid.NewGuid();
+                _sightingsContext.NestReports.Add(new NestReport()
+                {
+                    Id = guid,
+                    Locations =
+                        new List<Location>()
+                        {
+                            new Location() {Area = area, LocationTimeStamp = DateTime.UtcNow, Spot = spot}
+                        },Pokemon = pokemon
+                });
+                return guid;
+            }
+            
+        }
+
+        public async Task<List<NestReport>> GetNestReportsAsync()
+        {
+
+            IQueryable<NestReport> query = _sightingsContext.NestReports;
+            query = query.Include("Locations");
+            query = query.Include("Locations.Area");
+            query = query.Include("Pokemon");
+            return await query.ToListAsync();
+        }
     }
 
     internal interface IRepository : IDisposable
@@ -106,6 +151,9 @@ namespace CommunityNotifier.Core.Domain.Repository
        Task<List<Area>> GetAreasAsList();
         Task<Pokemon> GetPokemonByNumber(int pokemonNumber);
         Task<List<Pokemon>> GetPokemons();
+
+        Task<Guid> AddNestReport(int pokemonid, int areaId, string spot);
+        Task<List<NestReport>> GetNestReportsAsync();
     }
 
     public class SightingsContext : DbContext
@@ -118,7 +166,8 @@ namespace CommunityNotifier.Core.Domain.Repository
        public IDbSet<SightingsReport> SightingsReports { get; set; }
         public IDbSet<Area> Areas { get; set; }
         public IDbSet<Pokemon> Pokemons { get; set; }
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        public IDbSet<NestReport> NestReports { get; set; }
+       protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             // Database does not pluralize table names
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
