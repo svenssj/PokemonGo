@@ -19,7 +19,7 @@ namespace CommunityNotifier.Core.Domain.DomainService
             _firebaseService = firebaseService;
         }
 
-        public async Task<bool> AddRegistrationId(string deviceId,  string reg_id)
+        public async Task<bool> AddOrUpdateDevice(string deviceId,  string reg_id)
         {
             var result =  await Task.FromResult(_repository.RegisterOrUpdateDevice(deviceId, reg_id));
             return result != null;
@@ -43,11 +43,13 @@ namespace CommunityNotifier.Core.Domain.DomainService
                 var devices = await _repository.GetDevices();
                 foreach (var device in devices)
                 {
-                    var fbResponse = _firebaseService.SendNotification(new FireBaseNotification()
-                    {
-                        Body = sighting.Area.AreaName + " - " + sighting.Locaiton,
-                        Header = sighting.Pokemon.PokemonName + " - " + sighting.Area.AreaName
-                    }, device.RegistrationId);
+                    //THIS IS WHERE NOTIFICATIONS WILL BE SENT
+                    //TODO: Test that devices are registred before activating this
+                    //var fbResponse = _firebaseService.SendNotification(new FireBaseNotification()
+                    //{
+                    //    Body = sighting.Area.AreaName + " - " + sighting.Locaiton,
+                    //    Header = sighting.Pokemon.PokemonName + " - " + sighting.Area.AreaName
+                    //}, device.RegistrationId);
                 }
      
             }

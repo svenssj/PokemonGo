@@ -76,12 +76,12 @@ namespace ComminityNotifier.Api.Controllers
         }
 
         [HttpPost]
-        [Route("AddRegistrationId")]
+        [Route("AddOrUpdateDevice")]
         public async Task<bool> RegisterOrUpdateDevice(string deviceId ,string registrationId)
         {
             if(string.IsNullOrWhiteSpace(registrationId)||string.IsNullOrWhiteSpace(deviceId))
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
-            return await _appService.AddRegistrationId(deviceId,registrationId);
+            return await _appService.AddOrUpdateDevice(deviceId,registrationId);
         }
 
         private ReportSightingsResponseObject ValidateSightingsReport(int pokemonNumber, string location)
