@@ -14,7 +14,6 @@ namespace CommunityNotifier.Core.Configuration
             container.RegisterType<ISightnigsApplicationService, SightnigsApplicationService>();
             container.RegisterType<ISightingsDomainService, SightingsDomainService>();
             container.RegisterType<IRepository, SightingsRepository>();
-            container.RegisterType<IRepository, Repository>();
             container.RegisterType<IFirebaseService, FirebaseService>();
             container.RegisterType<IFireBaseClient, FireBaseClient>();
         }

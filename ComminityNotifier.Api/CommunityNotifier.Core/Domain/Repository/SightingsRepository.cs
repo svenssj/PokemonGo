@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
@@ -137,6 +138,16 @@ namespace CommunityNotifier.Core.Domain.Repository
             query = query.Include("Pokemon");
             return await query.ToListAsync();
         }
+
+        public object RegisterOrUpdateDevice(string deviceId, string regId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<List<Device>> GetDevices()
+        {
+            return await _sightingsContext.Devices.ToListAsync();
+        }
     }
 
     internal interface IRepository : IDisposable
@@ -146,6 +157,7 @@ namespace CommunityNotifier.Core.Domain.Repository
         void RemoveReport(Guid guid);
         void RemoveReport(SightingsReport reportToRemove);
         void SaveChanges();
+
         Task<int> SaveChangesAsync();
 
        Task<List<Area>> GetAreasAsList();
@@ -154,6 +166,8 @@ namespace CommunityNotifier.Core.Domain.Repository
 
         Task<Guid> AddNestReport(int pokemonid, int areaId, string spot);
         Task<List<NestReport>> GetNestReportsAsync();
+        object RegisterOrUpdateDevice(string deviceId, string regId);
+        Task<List<Device>> GetDevices();
     }
 
     public class SightingsContext : DbContext
@@ -167,6 +181,7 @@ namespace CommunityNotifier.Core.Domain.Repository
         public IDbSet<Area> Areas { get; set; }
         public IDbSet<Pokemon> Pokemons { get; set; }
         public IDbSet<NestReport> NestReports { get; set; }
+        public IDbSet<Device> Devices { get; set; }
        protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             // Database does not pluralize table names

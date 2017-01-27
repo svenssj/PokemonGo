@@ -21,7 +21,7 @@ namespace CommunityNotifier.Core.Domain.DomainService
 
         public async Task<bool> AddRegistrationId(string deviceId,  string reg_id)
         {
-            var result =  await Task.FromResult(_repository.AddRegistrationId(deviceId, reg_id));
+            var result =  await Task.FromResult(_repository.RegisterOrUpdateDevice(deviceId, reg_id));
             return result != null;
         }
 

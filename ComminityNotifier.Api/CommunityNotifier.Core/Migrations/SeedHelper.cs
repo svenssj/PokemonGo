@@ -24,7 +24,8 @@ namespace CommunityNotifier.Core.Migrations
  new Area() { AreaName = "Centrum" },
  new Area() { AreaName = "Öster mälarstrand" },
  new Area() { AreaName = "Skallberget" },
-  new Area() { AreaName = "Gideonsberg" }
+  new Area() { AreaName = "Gideonsberg" },
+    new Area() { AreaName = "Skiljebo" }
  );
         }
 
