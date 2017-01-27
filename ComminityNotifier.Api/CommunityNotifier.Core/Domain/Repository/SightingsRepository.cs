@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
@@ -9,7 +8,7 @@ using CommunityNotifier.Core.Domain.Model;
 
 namespace CommunityNotifier.Core.Domain.Repository
 {
-    
+
     internal class SightingsRepository : IRepository
     {
         private readonly SightingsContext _sightingsContext;
@@ -17,21 +16,21 @@ namespace CommunityNotifier.Core.Domain.Repository
         public SightingsRepository()
         {
             _sightingsContext = new SightingsContext();
-         
+
         }
 
         public void Dispose()
         {
-           _sightingsContext.Dispose();
+            _sightingsContext.Dispose();
         }
 
         public async Task<List<SightingsReport>> GetFreshReportsAsList()
         {
             var now = DateTime.UtcNow;
-        
+
 
             IQueryable<SightingsReport> query = _sightingsContext.SightingsReports;
-          query=  query.Include("Area");
+            query = query.Include("Area");
             query = query.Include("Pokemon");
 
             var list = await query.ToListAsync();
@@ -40,8 +39,8 @@ namespace CommunityNotifier.Core.Domain.Repository
             foreach (var sightingsReport in list)
             {
 
-                var span = (now -sightingsReport.ReportTime).TotalMinutes;
-                if(span<60)
+                var span = (now - sightingsReport.ReportTime).TotalMinutes;
+                if (span < 60)
                     newList.Add(sightingsReport);
             }
             return newList;
@@ -52,7 +51,7 @@ namespace CommunityNotifier.Core.Domain.Repository
             var guid = Guid.NewGuid();
             reportToAdd.SightingsId = guid;
             _sightingsContext.SightingsReports.Add(reportToAdd);
-        
+
             return guid;
         }
 
@@ -66,7 +65,7 @@ namespace CommunityNotifier.Core.Domain.Repository
 
         public void RemoveReport(SightingsReport reportToRemove)
         {
-         RemoveReport(reportToRemove.SightingsId);
+            RemoveReport(reportToRemove.SightingsId);
         }
 
         public void SaveChanges()
@@ -76,7 +75,7 @@ namespace CommunityNotifier.Core.Domain.Repository
 
         public async Task<int> SaveChangesAsync()
         {
-            return  await _sightingsContext.SaveChangesAsync();
+            return await _sightingsContext.SaveChangesAsync();
         }
 
         public async Task<List<Area>> GetAreasAsList()
@@ -102,14 +101,14 @@ namespace CommunityNotifier.Core.Domain.Repository
             var area = (await GetAreasAsList()).First(a => a.AreaId == areaId);
             if (area == null)
                 throw new IndexOutOfRangeException();
-      
+
             var report =
                 (await GetNestReportsAsync()).FirstOrDefault(
                     rep => rep.Pokemon.PokemonNumber == pokemonid);
             //Add locaiton to existing nest
-            if (report!=null)
+            if (report != null)
             {
-               report.Locations.Add(new Location() {Area = area,LocationTimeStamp = DateTime.UtcNow,Spot = spot});
+                report.Locations.Add(new Location() {Area = area, LocationTimeStamp = DateTime.UtcNow, Spot = spot});
                 return report.Id;
             }
             else
@@ -122,11 +121,12 @@ namespace CommunityNotifier.Core.Domain.Repository
                         new List<Location>()
                         {
                             new Location() {Area = area, LocationTimeStamp = DateTime.UtcNow, Spot = spot}
-                        },Pokemon = pokemon
+                        },
+                    Pokemon = pokemon
                 });
                 return guid;
             }
-            
+
         }
 
         public async Task<List<NestReport>> GetNestReportsAsync()
@@ -139,11 +139,37 @@ namespace CommunityNotifier.Core.Domain.Repository
             return await query.ToListAsync();
         }
 
-        public object RegisterOrUpdateDevice(string deviceId, string regId)
+        public async Task<bool> RegisterOrUpdateDevice(string deviceId, string regId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var existingDevice = await GetExistingDeviceOrNull(deviceId);
+
+                //Add new registration
+                if (existingDevice == null)
+                {
+                 _sightingsContext.Devices.Add(new Device() { DeviceId = deviceId, RegistrationId = regId });
+                 
+                }
+                //Update existing
+                else
+                {
+                    existingDevice.RegistrationId = regId;
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+           }
+         
         }
 
+        private async Task<Device> GetExistingDeviceOrNull(string deviceId)
+        {
+            return await _sightingsContext.Devices.FirstOrDefaultAsync(d => d.DeviceId == deviceId);
+        }
+             
         public async Task<List<Device>> GetDevices()
         {
             return await _sightingsContext.Devices.ToListAsync();
@@ -166,7 +192,7 @@ namespace CommunityNotifier.Core.Domain.Repository
 
         Task<Guid> AddNestReport(int pokemonid, int areaId, string spot);
         Task<List<NestReport>> GetNestReportsAsync();
-        object RegisterOrUpdateDevice(string deviceId, string regId);
+        Task<bool> RegisterOrUpdateDevice(string deviceId, string regId);
         Task<List<Device>> GetDevices();
     }
 

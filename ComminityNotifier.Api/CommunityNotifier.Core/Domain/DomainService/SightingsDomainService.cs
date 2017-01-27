@@ -21,8 +21,9 @@ namespace CommunityNotifier.Core.Domain.DomainService
 
         public async Task<bool> AddOrUpdateDevice(string deviceId,  string reg_id)
         {
-            var result =  await Task.FromResult(_repository.RegisterOrUpdateDevice(deviceId, reg_id));
-            return result != null;
+          await _repository.RegisterOrUpdateDevice(deviceId, reg_id);
+            var result = await _repository.SaveChangesAsync();
+            return result > 0;
         }
 
         public async Task<int> AddSightingsReport(int pokemonId, int areaId, string location, DateTime reportTime)
