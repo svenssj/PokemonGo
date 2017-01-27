@@ -276,3 +276,5 @@ __pycache__/
 Contact GitHub API Training Shop Blog About
 © 2017 GitHub, Inc. Terms Privacy Security Status Help
 ComminityNotifier.Api/.vs/CommunityNotifier.Api/v14/.suo
+ComminityNotifier.Api/ComminityNotifier.Api/bin
+ComminityNotifier.Api/CommunityNotifier.Core/bin/
