@@ -46,5 +46,10 @@ namespace CommunityNotifier.Core.ApplicationService
         {
             return (await _sightingsDomainService.GetNestReports()).OrderBy(nr=>nr.Pokemon.PokemonNumber).ToList();
         }
+
+        public async Task<bool> AddOrUpdateDevice(string deviceId, string registrationId)
+        {
+            return await _sightingsDomainService.AddOrUpdateDevice(deviceId,registrationId);
+        }
     }
 }

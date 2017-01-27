@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityNotifier.Core.Domain.DomainService.Interface;
+using CommunityNotifier.Core.Domain.ExternalService;
 using CommunityNotifier.Core.Domain.Model;
 using CommunityNotifier.Core.Domain.Repository;
 
@@ -11,9 +12,17 @@ namespace CommunityNotifier.Core.Domain.DomainService
     internal class SightingsDomainService : ISightingsDomainService
     {
         private readonly IRepository _repository;
-        public SightingsDomainService(IRepository repository)
+        private readonly IFirebaseService _firebaseService;
+        public SightingsDomainService(IRepository repository, IFirebaseService firebaseService)
         {
             _repository = repository;
+            _firebaseService = firebaseService;
+        }
+
+        public async Task<bool> AddOrUpdateDevice(string deviceId,  string reg_id)
+        {
+            var result =  await Task.FromResult(_repository.RegisterOrUpdateDevice(deviceId, reg_id));
+            return result != null;
         }
 
         public async Task<int> AddSightingsReport(int pokemonId, int areaId, string location, DateTime reportTime)
@@ -26,8 +35,26 @@ namespace CommunityNotifier.Core.Domain.DomainService
                 ReportTime = reportTime
             };
             _repository.AddReport(sighting);
-            return await _repository.SaveChangesAsync();
-          }
+            var repoResponse = await _repository.SaveChangesAsync();
+
+            if (repoResponse > 0)
+            {
+
+                var devices = await _repository.GetDevices();
+                foreach (var device in devices)
+                {
+                    //THIS IS WHERE NOTIFICATIONS WILL BE SENT
+                    //TODO: Test that devices are registred before activating this
+                    //var fbResponse = _firebaseService.SendNotification(new FireBaseNotification()
+                    //{
+                    //    Body = sighting.Area.AreaName + " - " + sighting.Locaiton,
+                    //    Header = sighting.Pokemon.PokemonName + " - " + sighting.Area.AreaName
+                    //}, device.RegistrationId);
+                }
+     
+            }
+            return repoResponse;
+        }
 
         private async Task<Pokemon> GetPokemonByNumber(int pokemonNuber)
         {
