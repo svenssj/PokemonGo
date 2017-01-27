@@ -2,19 +2,44 @@
 
     <title>Pokemon Go - Sighting Västerås</title>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var now = new Date();
-            $(".date").each(function () {
-                var date = new Date(this.textContent);
-                this.textContent = date.toLocaleString();
-                var diff =now.getTime() - date.getTime();
-                this.innerHTML += "<span class='red'> " + Math.round(diff / 60000) + " min sedan</span>";
-            });
-
+<script type="text/javascript">
+    $(document).ready(function () {
+        var now = new Date();
+        $(".date").each(function () {
+            var date = new Date(this.textContent);
+            this.textContent = date.toLocaleString();
+            var diff =now.getTime() - date.getTime();
+            this.innerHTML += "<span class='red'> " + Math.round(diff / 60000) + " min sedan</span>";
         });
-    </script>
 
+    });
+</script>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="alert alert-success">
+            <h3>Kul att du hittat hit!</h3>
+            <p>Följ oss på <a href="https://www.facebook.com/SightingsVasteras/">Facebook</a> för uppdateringar om appen och nya funktioner</p>
+            </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="alert alert-info">
+            <p>På denna sida så rapporterar du in sightings</p>
+            <p>Vad är då en sighting?</p>
+            <p>
+                På cykelbanan framför dig så ligger det en riktig bjässe till Snorlax.
+                Givetvis vill du att alla ska få reda på att Snorlax finns just här,
+                Då är det bara att fylla i formuläret till höger och skicka in.
+                Vips så syns din sighting i listan.
+                
+                I framtiden så kommer alla som har Sightings Västerås Appen (Under utveckling) att få en notis i telefonen när en sigting rapporteras in.
+            </p>
+
+        </div>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-lg-7">

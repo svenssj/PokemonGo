@@ -1,0 +1,82 @@
+﻿@model ComminityNotifier.Api.Models.NestListViewModel
+
+@{
+    ViewBag.Title = "Rapportera in och visa Nests - Sightings Västerås";
+}
+
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="alert alert-info">
+            <p>På denna sida så rapporterar du in de nests du stöter på.</p>
+            <p>Vad är då ett nest?</p>
+            <p>Ett nest är en specifik plats där en viss pokemon spawnar väldigt ofta eller i stora grupper
+            Det kännetecknas ofta av att man kan se två eller fler av samma sorts pokemon på samma ställe två dagar i följd</p>
+            
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-8">
+        <h2>Nests</h2>
+
+        @foreach (var nest in Model.NestReports)
+        {
+            <div class="nest-report">
+                <h2>@nest.Pokemon.Name</h2>
+                <div class="well nest-report-location-container">
+                    @foreach (var location in nest.Location)
+                    {
+                        <p>
+                            <b>Område:</b>
+                        </p>
+                        <p>@location.Area</p>
+                        <p>
+                            <b>Plats:</b>
+                        </p>
+                        <p>@location.Spot</p>
+                        <hr />
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-lg-4">
+        <h2>Rapportera nest</h2>
+        <div class="well">
+       @using (@Html.BeginForm("AddNestReport", "Nests", FormMethod.Post))
+       {
+        <div class="form-group">
+            <label>Pokemon:</label>
+            <select class="form-control" name="pokemonid">
+                @if (Model.Pokemons != null)
+                {
+                    foreach (var pkmn in Model.Pokemons)
+                    {
+                        <option value=@(pkmn.Number)>@pkmn.Name</option>
+                    }
+                   
+                }
+                }
+            </select>
+        </div>
+            <div class="form-group">
+                <label>Område:</label>
+                <select class="form-control" name="areaid">
+                    @foreach (var area in Model.Areas)
+                    {
+                        <option value=@(area.Id)>@area.AreaName</option>
+                    }
+                </select>
+            </div>
+                <div class="form-group">
+                    <label for="location">Plats:</label>
+                    <input type="text" name="spot" class="form-control" id="location">
+                </div>
+
+                <input class="btn btn-success" type="submit" value="Skicka rapport!" />
+       }
+        </div>
+    </div>
+
+</div>

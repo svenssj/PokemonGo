@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using ComminityNotifier.Api.Models;
 using CommunityNotifier.Core.ApplicationService;
-using CommunityNotifier.Core.Domain.Model;
 
 
 namespace ComminityNotifier.Api.Controllers
@@ -69,11 +68,5 @@ namespace ComminityNotifier.Api.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-    }
-
-    public class AreaDTO
-    {
-        public int Id { get; set; }
-        public string AreaName { get; set; }
     }
 }
