@@ -94,6 +94,10 @@
     <Compile Include="Migrations\201701242153127_Nests.Designer.cs">
       <DependentUpon>201701242153127_Nests.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701271113584_merge.cs" />
+    <Compile Include="Migrations\201701271113584_merge.Designer.cs">
+      <DependentUpon>201701271113584_merge.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\SeedHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -116,6 +120,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201701242153127_Nests.resx">
       <DependentUpon>201701242153127_Nests.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701271113584_merge.resx">
+      <DependentUpon>201701271113584_merge.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

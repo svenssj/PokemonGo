@@ -19,7 +19,7 @@ namespace ComminityNotifier.Api.Controllers
 
         [HttpPost]
         [Route("AddSighting")]
-        public async Task<ReportSightingsResponseObject> RepostSightning(int pokemonNumber, int area, string location)
+        public async Task<ReportSightingsResponseObject> ReportSightning(int pokemonNumber, int area, string location)
         {
 
             var valid = ValidateSightingsReport(pokemonNumber,location).IsValid;
