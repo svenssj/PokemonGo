@@ -8,7 +8,7 @@ namespace CommunityNotifier.Core.Domain.ExternalService
 {
     public interface IFirebaseService
     {
-        Task<bool> SendNotification(FireBaseNotification notification, string deviceId);
+        Task<bool> SendNotification(FireBaseNotification notification, string firebaseId);
     }
 
     public class FirebaseService : IFirebaseService
@@ -20,9 +20,9 @@ namespace CommunityNotifier.Core.Domain.ExternalService
         {
             _client = client;
         }
-        public async Task<bool> SendNotification(FireBaseNotification notification, string deviceId)
+        public async Task<bool> SendNotification(FireBaseNotification notification, string firebaseId)
         {
-          return  await _client.SendNotification(notification,  deviceId);
+          return  await _client.SendNotification(notification,  firebaseId);
         }
     }
 
