@@ -139,7 +139,7 @@ namespace CommunityNotifier.Core.Domain.Repository
             return await query.ToListAsync();
         }
 
-        public async Task<bool> RegisterOrUpdateDevice(string deviceId, string regId)
+        public async Task<RegisterOrUpdateResponseEnum> RegisterOrUpdateDevice(string deviceId, string regId)
         {
             try
             {
@@ -149,18 +149,19 @@ namespace CommunityNotifier.Core.Domain.Repository
                 if (existingDevice == null)
                 {
                  _sightingsContext.Devices.Add(new Device() { DeviceId = deviceId, RegistrationId = regId });
-                 
+                    return RegisterOrUpdateResponseEnum.Registered;
                 }
                 //Update existing
                 else
                 {
                     existingDevice.RegistrationId = regId;
+                    return RegisterOrUpdateResponseEnum.Updated;
                 }
-                return true;
+        
             }
             catch (Exception)
             {
-                return false;
+                return RegisterOrUpdateResponseEnum.Error;
            }
          
         }
@@ -192,7 +193,7 @@ namespace CommunityNotifier.Core.Domain.Repository
 
         Task<Guid> AddNestReport(int pokemonid, int areaId, string spot);
         Task<List<NestReport>> GetNestReportsAsync();
-        Task<bool> RegisterOrUpdateDevice(string deviceId, string regId);
+        Task<RegisterOrUpdateResponseEnum> RegisterOrUpdateDevice(string deviceId, string regId);
         Task<List<Device>> GetDevices();
     }
 
@@ -215,9 +216,17 @@ namespace CommunityNotifier.Core.Domain.Repository
         }
 
     }
- 
 
-   
+    public enum RegisterOrUpdateResponseEnum
+    {
+        Registered,
+        Updated,
+        Error
+    }
+
+
+
+
 
 
 }

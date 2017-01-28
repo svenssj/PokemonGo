@@ -21,8 +21,13 @@ namespace CommunityNotifier.Core.Domain.DomainService
 
         public async Task<bool> AddOrUpdateDevice(string deviceId,  string reg_id)
         {
-          await _repository.RegisterOrUpdateDevice(deviceId, reg_id);
+         var response =  await _repository.RegisterOrUpdateDevice(deviceId, reg_id);
             var result = await _repository.SaveChangesAsync();
+            if (response == RegisterOrUpdateResponseEnum.Registered)
+            {
+             await   _firebaseService.SendNotification(new FireBaseNotification() { Header = "Registrerad", Body = "Enheten är nu redo att ta emot notifieringar" },reg_id);
+            }
+          
             return result > 0;
         }
 
