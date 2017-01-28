@@ -44,13 +44,13 @@ namespace CommunityNotifier.Core.Domain.DomainService
                 var devices = await _repository.GetDevices();
                 foreach (var device in devices)
                 {
-                    //THIS IS WHERE NOTIFICATIONS WILL BE SENT
-                    //TODO: Test that devices are registred before activating this
-                    //var fbResponse = _firebaseService.SendNotification(new FireBaseNotification()
-                    //{
-                    //    Body = sighting.Area.AreaName + " - " + sighting.Locaiton,
-                    //    Header = sighting.Pokemon.PokemonName + " - " + sighting.Area.AreaName
-                    //}, device.RegistrationId);
+                //THIS IS WHERE NOTIFICATIONS WILL BE SENT
+                //TODO: Test that devices are registred before activating this
+                    var fbResponse = _firebaseService.SendNotification(new FireBaseNotification()
+                    {
+                        Body = sighting.Area.AreaName +" - "+ sighting.Locaiton,
+                        Header = sighting.Pokemon.PokemonName + " - siktad!"
+                    }, device.RegistrationId);
                 }
      
             }
