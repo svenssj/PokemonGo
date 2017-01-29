@@ -86,7 +86,7 @@ namespace ComminityNotifier.Api.Controllers
             return await _appService.AddOrUpdateDevice(deviceId,registrationId);
         }
 
-
+         
         [HttpGet]
         [Route("GetNests")]
         public async Task<List<NestReportDTO>> GetNests()
