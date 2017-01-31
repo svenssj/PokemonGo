@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
@@ -209,21 +208,25 @@ namespace CommunityNotifier.Core.Domain.Repository
                 _sightingsContext.DevicePokemonFilter.Remove(currentDevice);
             }
 
-
             foreach (var areaId in areaIds)
             {
+
+                var area = areas.FirstOrDefault(a => a.AreaId == areaId);
+                if(area ==null)
+                    throw new IndexOutOfRangeException();
                 _sightingsContext.DeviceAreaFilter.Add(new DeviceAreaFilter()
                 {
                     Device = device,
-                    Area = areas.FirstOrDefault(a => a.AreaId == areaId)
+                    Area =area
                 });
             }
             foreach (var pokemonId in pokemonIds)
             {
+                var pokemon = pokemons.FirstOrDefault(p => p.PokemonNumber == pokemonId);
                 _sightingsContext.DevicePokemonFilter.Add(new DevicePokemonFilter()
                 {
                     Device = device,
-                    Pokemon = pokemons.FirstOrDefault(p => p.PokemonNumber == pokemonId)
+                    Pokemon = pokemon
                 });
             }
 
