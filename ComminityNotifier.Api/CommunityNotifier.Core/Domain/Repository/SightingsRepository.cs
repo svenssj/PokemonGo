@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
@@ -108,7 +109,7 @@ namespace CommunityNotifier.Core.Domain.Repository
             //Add locaiton to existing nest
             if (report != null)
             {
-                report.Locations.Add(new Location() {Area = area, LocationTimeStamp = DateTime.UtcNow, Spot = spot});
+                report.Locations.Add(new Location() { Area = area, LocationTimeStamp = DateTime.UtcNow, Spot = spot });
                 return report.Id;
             }
             else
@@ -138,6 +139,22 @@ namespace CommunityNotifier.Core.Domain.Repository
             query = query.Include("Pokemon");
             return await query.ToListAsync();
         }
+        private async Task<List<DeviceAreaFilter>> GetDeviceAreaFiltersAsync()
+        {
+
+            IQueryable<DeviceAreaFilter> query = _sightingsContext.DeviceAreaFilter;
+            query = query.Include("Device");
+            query = query.Include("Area");
+            return await query.ToListAsync();
+        }
+        private async Task<List<DevicePokemonFilter>> GetDevicePokemonFilterAsync()
+        {
+
+            IQueryable<DevicePokemonFilter> query = _sightingsContext.DevicePokemonFilter;
+            query = query.Include("Device");
+            query = query.Include("Pokemon");
+            return await query.ToListAsync();
+        }
 
         public async Task<RegisterOrUpdateResponseEnum> RegisterOrUpdateDevice(string deviceId, string regId)
         {
@@ -148,7 +165,7 @@ namespace CommunityNotifier.Core.Domain.Repository
                 //Add new registration
                 if (existingDevice == null)
                 {
-                 _sightingsContext.Devices.Add(new Device() { DeviceId = deviceId, RegistrationId = regId });
+                    _sightingsContext.Devices.Add(new Device() { DeviceId = deviceId, RegistrationId = regId });
                     return RegisterOrUpdateResponseEnum.Registered;
                 }
                 //Update existing
@@ -157,23 +174,75 @@ namespace CommunityNotifier.Core.Domain.Repository
                     existingDevice.RegistrationId = regId;
                     return RegisterOrUpdateResponseEnum.Updated;
                 }
-        
+
             }
             catch (Exception)
             {
                 return RegisterOrUpdateResponseEnum.Error;
-           }
-         
+            }
+
         }
 
         private async Task<Device> GetExistingDeviceOrNull(string deviceId)
         {
             return await _sightingsContext.Devices.FirstOrDefaultAsync(d => d.DeviceId == deviceId);
         }
-             
+
         public async Task<List<Device>> GetDevices()
         {
             return await _sightingsContext.Devices.ToListAsync();
+        }
+
+        public async Task<bool> AddOrUpdateNotificationFilter(string deviceId, List<int> pokemonIds, List<int> areaIds)
+        {
+            var pokemons = await GetPokemons();
+            var areas = await GetAreasAsList();
+
+            var device = await GetDeviceById(deviceId);
+
+            foreach (var currentDevice in (await GetDeviceAreaFiltersAsync()).Where(daf => daf.Device.DeviceId == deviceId))
+            {
+                _sightingsContext.DeviceAreaFilter.Remove(currentDevice);
+            }
+            foreach (var currentDevice in (await GetDevicePokemonFilterAsync()).Where(daf => daf.Device.DeviceId == deviceId))
+            {
+                _sightingsContext.DevicePokemonFilter.Remove(currentDevice);
+            }
+
+
+            foreach (var areaId in areaIds)
+            {
+                _sightingsContext.DeviceAreaFilter.Add(new DeviceAreaFilter()
+                {
+                    Device = device,
+                    Area = areas.FirstOrDefault(a => a.AreaId == areaId)
+                });
+            }
+            foreach (var pokemonId in pokemonIds)
+            {
+                _sightingsContext.DevicePokemonFilter.Add(new DevicePokemonFilter()
+                {
+                    Device = device,
+                    Pokemon = pokemons.FirstOrDefault(p => p.PokemonNumber == pokemonId)
+                });
+            }
+
+
+
+            return true;
+        }
+
+        private async Task<Device> GetDeviceById(string deviceId)
+        {
+            return await _sightingsContext.Devices.FirstOrDefaultAsync(d => d.DeviceId == deviceId);
+        }
+
+        public async Task<List<Device>> GetDevicesWithAreaAndPokemon(int areaId, int pokemonId)
+        {
+            var areaDevices = (await GetDeviceAreaFiltersAsync()).Where(daf => daf.Area.AreaId == areaId).Select(daf=>daf.Device);
+            var pokemonDevices =
+                (await GetDevicePokemonFilterAsync()).Where(dpf => dpf.Pokemon.PokemonNumber == pokemonId).Select(dpf=>dpf.Device);
+            return areaDevices.Where(ad => pokemonDevices.Any(pd => pd.DeviceId == ad.DeviceId)).ToList();
         }
     }
 
@@ -187,7 +256,7 @@ namespace CommunityNotifier.Core.Domain.Repository
 
         Task<int> SaveChangesAsync();
 
-       Task<List<Area>> GetAreasAsList();
+        Task<List<Area>> GetAreasAsList();
         Task<Pokemon> GetPokemonByNumber(int pokemonNumber);
         Task<List<Pokemon>> GetPokemons();
 
@@ -195,6 +264,8 @@ namespace CommunityNotifier.Core.Domain.Repository
         Task<List<NestReport>> GetNestReportsAsync();
         Task<RegisterOrUpdateResponseEnum> RegisterOrUpdateDevice(string deviceId, string regId);
         Task<List<Device>> GetDevices();
+        Task<bool> AddOrUpdateNotificationFilter(string deviceId, List<int> pokemonIds, List<int> areaIds);
+        Task<List<Device>> GetDevicesWithAreaAndPokemon(int areaId, int pokemonId);
     }
 
     public class SightingsContext : DbContext
@@ -202,14 +273,16 @@ namespace CommunityNotifier.Core.Domain.Repository
 
         public SightingsContext()
         {
-                Database.SetInitializer<SightingsContext>(null);
+            Database.SetInitializer<SightingsContext>(null);
         }
-       public IDbSet<SightingsReport> SightingsReports { get; set; }
+        public IDbSet<SightingsReport> SightingsReports { get; set; }
         public IDbSet<Area> Areas { get; set; }
         public IDbSet<Pokemon> Pokemons { get; set; }
         public IDbSet<NestReport> NestReports { get; set; }
         public IDbSet<Device> Devices { get; set; }
-       protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        public IDbSet<DeviceAreaFilter> DeviceAreaFilter { get; set; }
+        public IDbSet<DevicePokemonFilter> DevicePokemonFilter { get; set; }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             // Database does not pluralize table names
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();

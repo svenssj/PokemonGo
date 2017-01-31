@@ -20,11 +20,32 @@ namespace ComminityNotifier.Api.Controllers
         }
 
         [HttpPost]
+        [Route("SetNotificationFilter")]
+        public async Task<bool>
+        AddOrUpdateNotificationFilter(SetNotificationFilterDTO notificationFilterDTO)
+        {
+            if (notificationFilterDTO.DeviceId.IsNullOrWhiteSpace())
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+
+            if (!notificationFilterDTO.PokemonIds.Any() || !notificationFilterDTO.AreaIds.Any())
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+
+            return await _appService.AddOrUpdateNotificationFilter(notificationFilterDTO.DeviceId, notificationFilterDTO.PokemonIds, notificationFilterDTO.AreaIds);
+        }
+        public class SetNotificationFilterDTO
+        {
+          public  string DeviceId { get; set; }
+            public List<int> PokemonIds { get; set; }
+
+            public List<int> AreaIds { get; set; }
+        }
+
+        [HttpPost]
         [Route("AddSighting")]
         public async Task<ReportSightingsResponseObject> ReportSightning(int pokemonNumber, int area, string location)
         {
 
-            var valid = ValidateSightingsReport(pokemonNumber,location).IsValid;
+            var valid = ValidateSightingsReport(pokemonNumber, location).IsValid;
             if (!valid)
                 return new ReportSightingsResponseObject
                 {
@@ -41,7 +62,7 @@ namespace ComminityNotifier.Api.Controllers
                 return new ReportSightingsResponseObject(e.Message);
 
             }
-         
+
         }
         [HttpGet]
         [Route("GetSightings")]
@@ -54,7 +75,7 @@ namespace ComminityNotifier.Api.Controllers
                 Pokemon = sightingsReport.Pokemon.PokemonName,
                 Area = sightingsReport.Area.AreaName,
                 Location = sightingsReport.Locaiton,
-                Time = sightingsReport.ReportTime.ToString(CultureInfo.InvariantCulture)+"Z"
+                Time = sightingsReport.ReportTime.ToString(CultureInfo.InvariantCulture) + "Z"
             }).ToList();
 
         }
@@ -79,14 +100,14 @@ namespace ComminityNotifier.Api.Controllers
 
         [HttpPost]
         [Route("AddOrUpdateDevice")]
-        public async Task<bool> RegisterOrUpdateDevice(string deviceId ,string registrationId)
+        public async Task<bool> RegisterOrUpdateDevice(string deviceId, string registrationId)
         {
-            if(string.IsNullOrWhiteSpace(registrationId)||string.IsNullOrWhiteSpace(deviceId))
+            if (string.IsNullOrWhiteSpace(registrationId) || string.IsNullOrWhiteSpace(deviceId))
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
-            return await _appService.AddOrUpdateDevice(deviceId,registrationId);
+            return await _appService.AddOrUpdateDevice(deviceId, registrationId);
         }
 
-         
+
         [HttpGet]
         [Route("GetNests")]
         public async Task<List<NestReportDTO>> GetNests()
@@ -95,8 +116,8 @@ namespace ComminityNotifier.Api.Controllers
 
             return nests.Select(n => new NestReportDTO()
             {
-                Pokemon = new PokemonDTO() {Name = n.Pokemon.PokemonName, Number = n.Pokemon.PokemonNumber},
-                Location = n.Locations.Select(l => new LocationDTO() {Area = l.Area.AreaName, Spot = l.Spot}).ToList()
+                Pokemon = new PokemonDTO() { Name = n.Pokemon.PokemonName, Number = n.Pokemon.PokemonNumber },
+                Location = n.Locations.Select(l => new LocationDTO() { Area = l.Area.AreaName, Spot = l.Spot }).ToList()
 
             }).ToList();
         }
@@ -109,7 +130,7 @@ namespace ComminityNotifier.Api.Controllers
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             var result = await _appService.AddNestReport(pokemonId, areaId, spot);
 
-            return result>0;
+            return result > 0;
         }
 
         private ReportSightingsResponseObject ValidateSightingsReport(int pokemonNumber, string location)
