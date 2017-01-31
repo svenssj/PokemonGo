@@ -45,13 +45,11 @@ namespace CommunityNotifier.Core.Domain.DomainService
 
             if (repoResponse > 0)
             {
-
-                var devices = await _repository.GetDevices();
+                
+                var devices = await _repository.GetDevicesWithAreaAndPokemon(areaId,pokemonId);
                 foreach (var device in devices)
                 {
-                //THIS IS WHERE NOTIFICATIONS WILL BE SENT
-                //TODO: Test that devices are registred before activating this
-                    var fbResponse = _firebaseService.SendNotification(new FireBaseNotification()
+               var fbResponse = _firebaseService.SendNotification(new FireBaseNotification()
                     {
                         Body = sighting.Area.AreaName +" - "+ sighting.Locaiton,
                         Header = sighting.Pokemon.PokemonName + " - siktad!"
@@ -93,6 +91,15 @@ namespace CommunityNotifier.Core.Domain.DomainService
         public async Task<List<NestReport>> GetNestReports()
         {
             return await _repository.GetNestReportsAsync();
+        }
+
+        public async Task<bool> AddOrUpdateNotificationFilter(string deviceId, List<int> pokemonIds, List<int> areaIds)
+        {
+           var repoResult = await _repository.AddOrUpdateNotificationFilter(deviceId, pokemonIds, areaIds);
+            if (!repoResult)
+                return false;
+            var saveChangesResult = await _repository.SaveChangesAsync();
+            return saveChangesResult > 0;
         }
     }
 }
