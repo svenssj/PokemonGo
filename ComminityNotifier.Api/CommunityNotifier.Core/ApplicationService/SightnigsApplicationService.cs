@@ -51,5 +51,10 @@ namespace CommunityNotifier.Core.ApplicationService
         {
             return await _sightingsDomainService.AddOrUpdateDevice(deviceId,registrationId);
         }
+
+        public async Task<bool> AddOrUpdateNotificationFilter(string deviceId, List<int> pokemonIds, List<int> areaIds)
+        {
+            return await _sightingsDomainService.AddOrUpdateNotificationFilter(deviceId, pokemonIds, areaIds);
+        }
     }
 }

@@ -19,12 +19,33 @@ namespace CommunityNotifier.Api.Controllers.ApiControllers
         }
 
         [HttpPost]
+        [Route("SetNotificationFilter")]
+        public async Task<bool>
+        AddOrUpdateNotificationFilter(SetNotificationFilterDTO notificationFilterDTO)
+        {
+            if (notificationFilterDTO.DeviceId.IsNullOrWhiteSpace())
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+
+            if (!notificationFilterDTO.PokemonIds.Any() || !notificationFilterDTO.AreaIds.Any())
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+
+            return await _appService.AddOrUpdateNotificationFilter(notificationFilterDTO.DeviceId, notificationFilterDTO.PokemonIds, notificationFilterDTO.AreaIds);
+        }
+        public class SetNotificationFilterDTO
+        {
+          public  string DeviceId { get; set; }
+            public List<int> PokemonIds { get; set; }
+
+            public List<int> AreaIds { get; set; }
+        }
+
+        [HttpPost]
         [Route("AddSighting")]
      
         public async Task<ReportSightingsResponseObject> ReportSightning(int pokemonNumber, int area, string location)
         {
 
-            var valid = ValidateSightingsReport(pokemonNumber,location).IsValid;
+            var valid = ValidateSightingsReport(pokemonNumber, location).IsValid;
             if (!valid)
                 return new ReportSightingsResponseObject
                 {
@@ -41,7 +62,7 @@ namespace CommunityNotifier.Api.Controllers.ApiControllers
                 return new ReportSightingsResponseObject(e.Message);
 
             }
-         
+
         }
         [HttpGet]
         [Route("GetSightings")]
@@ -54,7 +75,7 @@ namespace CommunityNotifier.Api.Controllers.ApiControllers
                 Pokemon = sightingsReport.Pokemon.PokemonName,
                 Area = sightingsReport.Area.AreaName,
                 Location = sightingsReport.Locaiton,
-                Time = sightingsReport.ReportTime.ToString(CultureInfo.InvariantCulture)+"Z"
+                Time = sightingsReport.ReportTime.ToString(CultureInfo.InvariantCulture) + "Z"
             }).ToList();
 
         }

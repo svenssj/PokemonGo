@@ -68,6 +68,8 @@
     <Compile Include="Domain\Model\Area.cs" />
     <Compile Include="Domain\DomainService\Interface\ISightingsDomainService.cs" />
     <Compile Include="Domain\DomainService\SightingsDomainService.cs" />
+    <Compile Include="Domain\Model\DeviceAreaFilter.cs" />
+    <Compile Include="Domain\Model\DevicePokemonFilter.cs" />
     <Compile Include="Domain\Model\Location.cs" />
     <Compile Include="Domain\Model\NestReport.cs" />
     <Compile Include="Domain\Model\Device.cs" />
@@ -102,6 +104,10 @@
     <Compile Include="Migrations\201701271113584_merge.Designer.cs">
       <DependentUpon>201701271113584_merge.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701311854021_notificationfilters.cs" />
+    <Compile Include="Migrations\201701311854021_notificationfilters.Designer.cs">
+      <DependentUpon>201701311854021_notificationfilters.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\SeedHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -127,6 +133,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201701271113584_merge.resx">
       <DependentUpon>201701271113584_merge.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701311854021_notificationfilters.resx">
+      <DependentUpon>201701311854021_notificationfilters.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
