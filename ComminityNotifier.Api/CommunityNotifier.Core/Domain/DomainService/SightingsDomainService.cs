@@ -19,13 +19,13 @@ namespace CommunityNotifier.Core.Domain.DomainService
             _firebaseService = firebaseService;
         }
 
-        public async Task<bool> AddOrUpdateDevice(string deviceId,  string reg_id)
+        public async Task<bool> AddOrUpdateDevice(string deviceId,  string regId)
         {
-         var response =  await _repository.RegisterOrUpdateDevice(deviceId, reg_id);
+         var response =  await _repository.RegisterOrUpdateDevice(deviceId, regId);
             var result = await _repository.SaveChangesAsync();
             if (response == RegisterOrUpdateResponseEnum.Registered)
             {
-             await   _firebaseService.SendNotification(new FireBaseNotification() { Header = "Registrerad", Body = "Enheten är nu redo att ta emot notifieringar" },reg_id);
+             await   _firebaseService.SendNotification(new FireBaseNotification { Header = "Registrerad", Body = "Enheten är nu redo att ta emot notifieringar" },regId);
             }
           
             return result > 0;
@@ -43,19 +43,15 @@ namespace CommunityNotifier.Core.Domain.DomainService
             _repository.AddReport(sighting);
             var repoResponse = await _repository.SaveChangesAsync();
 
-            if (repoResponse > 0)
+            if (repoResponse <= 0) return repoResponse;
+            var devices = await _repository.GetDevicesWithAreaAndPokemon(areaId,pokemonId);
+            foreach (var device in devices)
             {
-                
-                var devices = await _repository.GetDevicesWithAreaAndPokemon(areaId,pokemonId);
-                foreach (var device in devices)
+                var fbResponse = await _firebaseService.SendNotification(new FireBaseNotification()
                 {
-               var fbResponse = _firebaseService.SendNotification(new FireBaseNotification()
-                    {
-                        Body = sighting.Area.AreaName +" - "+ sighting.Locaiton,
-                        Header = sighting.Pokemon.PokemonName + " - siktad!"
-                    }, device.RegistrationId);
-                }
-     
+                    Body = sighting.Area.AreaName +" - "+ sighting.Locaiton,
+                    Header = sighting.Pokemon.PokemonName + " - siktad!"
+                }, device.RegistrationId);
             }
             return repoResponse;
         }
@@ -100,6 +96,16 @@ namespace CommunityNotifier.Core.Domain.DomainService
                 return false;
             var saveChangesResult = await _repository.SaveChangesAsync();
             return saveChangesResult > 0;
+        }
+
+        public async Task<List<Pokemon>> GetUserPokemonFilter(string deviceId)
+        {
+            return await _repository.GetUserPokemonFilter(deviceId);
+        }
+
+        public async Task<List<Area>> GetUserAreaFilter(string deviceId)
+        {
+            return await _repository.GetUserAreaFilter(deviceId);
         }
     }
 }

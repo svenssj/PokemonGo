@@ -14,10 +14,10 @@ namespace CommunityNotifier.Core.ApplicationService
         Task<List<NestReport>>  GetNestReports();
         Task<int> AddNestReport(int pokemonid, int areaid, string spot);
         Task<bool> AddOrUpdateDevice(string deviceId,string registrationId);
-
-
-        Task<List<Pokemon>>  GetUserPokemonFilter(string deviceId);
-        Task<List<Area>> GetUserAreaFilter(string deviceId);
+<<<<<<< HEAD
+        void  GetUserPokemons(string deviceId);
+=======
         Task<bool> AddOrUpdateNotificationFilter(string deviceId, List<int> pokemonIds, List<int> areaIds);
+>>>>>>> f463ac190f0298ca9c12efc9ca136fec732ce31b
     }
 }

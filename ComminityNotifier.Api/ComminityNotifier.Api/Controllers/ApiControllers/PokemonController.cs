@@ -10,9 +10,6 @@ namespace CommunityNotifier.Api.Controllers.ApiControllers
     [RoutePrefix("Pokemons")]
     public class PokemonController : ApiController
     {
-
-      
-
         private readonly ISightnigsApplicationService _sightnigsApplicationService;
 
         public PokemonController(ISightnigsApplicationService sightnigsApplicationService)

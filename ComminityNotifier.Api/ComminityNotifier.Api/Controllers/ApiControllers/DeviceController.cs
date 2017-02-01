@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using CommunityNotifier.Core.ApplicationService;
+using Microsoft.Ajax.Utilities;
 
 namespace CommunityNotifier.Api.Controllers.ApiControllers
 {
@@ -24,10 +26,36 @@ namespace CommunityNotifier.Api.Controllers.ApiControllers
             return await _appService.AddOrUpdateDevice(deviceId, registrationId);
         }
 
-        [HttpGet]
-        public async Task<List<PreferencesDto>> GetUserPreferences(string deviceId)
+        [HttpPost]
+        [Route("SetDeviceNotificationPreferences")]
+        public async Task<bool>
+   AddOrUpdateNotificationFilter(SetNotificationFilterDTO notificationFilterDTO)
         {
-            return (await _appService.GetUserPreferences(deviceId)).Select
+            if (notificationFilterDTO.DeviceId.IsNullOrWhiteSpace())
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+
+            if (!notificationFilterDTO.PokemonIds.Any() || !notificationFilterDTO.AreaIds.Any())
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+
+            return await _appService.AddOrUpdateNotificationFilter(notificationFilterDTO.DeviceId, notificationFilterDTO.PokemonIds, notificationFilterDTO.AreaIds);
+        }
+        public class SetNotificationFilterDTO
+        {
+            public string DeviceId { get; set; }
+            public List<int> PokemonIds { get; set; }
+
+            public List<int> AreaIds { get; set; }
+        }
+        [Route("GetDeviceNotificationPreferences")]
+        [HttpGet]
+        public async Task<PreferencesDto> GetUserPreferences(string deviceId)
+        {
+           return  new PreferencesDto
+            {
+                UserPokemons = (await _appService.GetUserPokemonFilter(deviceId)).Select(p => p.PokemonNumber).ToList(),
+                UserAreas = (await _appService.GetUserAreaFilter(deviceId)).Select(a => a.AreaId).ToList()
+            };
+        
         }
     }
 

@@ -247,6 +247,25 @@ namespace CommunityNotifier.Core.Domain.Repository
                 (await GetDevicePokemonFilterAsync()).Where(dpf => dpf.Pokemon.PokemonNumber == pokemonId).Select(dpf=>dpf.Device);
             return areaDevices.Where(ad => pokemonDevices.Any(pd => pd.DeviceId == ad.DeviceId)).ToList();
         }
+
+        public async Task<List<Pokemon>> GetUserPokemonFilter(string deviceId)
+        {
+            if(!_sightingsContext.Devices.Any(d=>d.DeviceId==deviceId))
+                throw new KeyNotFoundException();
+
+            var deviceFilter =( _sightingsContext.DevicePokemonFilter).Where(dpf => dpf.Device.DeviceId == deviceId);
+            return await deviceFilter.Select(df => df.Pokemon).ToListAsync();
+
+        }
+
+        public async Task<List<Area>> GetUserAreaFilter(string deviceId)
+        {
+            if (!_sightingsContext.Devices.Any(d => d.DeviceId == deviceId))
+                throw new KeyNotFoundException();
+
+            var deviceFilter = (_sightingsContext.DeviceAreaFilter).Where(dpf => dpf.Device.DeviceId == deviceId);
+            return await deviceFilter.Select(df => df.Area).ToListAsync();
+        }
     }
 
     internal interface IRepository : IDisposable
@@ -269,6 +288,8 @@ namespace CommunityNotifier.Core.Domain.Repository
         Task<List<Device>> GetDevices();
         Task<bool> AddOrUpdateNotificationFilter(string deviceId, List<int> pokemonIds, List<int> areaIds);
         Task<List<Device>> GetDevicesWithAreaAndPokemon(int areaId, int pokemonId);
+        Task<List<Pokemon>> GetUserPokemonFilter(string deviceId);
+        Task<List<Area>> GetUserAreaFilter(string deviceId);
     }
 
     public class SightingsContext : DbContext
