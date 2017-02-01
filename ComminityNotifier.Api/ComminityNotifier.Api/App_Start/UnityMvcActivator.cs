@@ -1,12 +1,12 @@
 using System.Linq;
 using System.Web.Mvc;
-using ComminityNotifier.Api;
+using CommunityNotifier.Api;
 using Microsoft.Practices.Unity.Mvc;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(UnityWebActivator), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(UnityWebActivator), "Shutdown")]
 
-namespace ComminityNotifier.Api
+namespace CommunityNotifier.Api
 {
     /// <summary>Provides the bootstrapping for integrating Unity with ASP.NET MVC.</summary>
     public static class UnityWebActivator

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace ComminityNotifier.Api.Areas.HelpPage.ModelDescriptions
+namespace CommunityNotifier.Api.Areas.HelpPage.ModelDescriptions
 {
     public class EnumTypeModelDescription : ModelDescription
     {

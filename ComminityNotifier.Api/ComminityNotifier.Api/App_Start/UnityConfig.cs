@@ -2,7 +2,7 @@ using System;
 using CommunityNotifier.Core.ApplicationService;
 using Microsoft.Practices.Unity;
 
-namespace ComminityNotifier.Api
+namespace CommunityNotifier.Api
 {
     /// <summary>
     /// Specifies the Unity configuration for the main container.

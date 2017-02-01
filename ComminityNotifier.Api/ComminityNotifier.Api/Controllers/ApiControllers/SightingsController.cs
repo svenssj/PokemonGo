@@ -5,12 +5,11 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
-using ComminityNotifier.Api.Models;
 using CommunityNotifier.Core.ApplicationService;
-using Microsoft.Ajax.Utilities;
 
-namespace ComminityNotifier.Api.Controllers
+namespace CommunityNotifier.Api.Controllers.ApiControllers
 {
+    [RoutePrefix("Sightings")]
     public class SightingsController : ApiController
     {
         private readonly ISightnigsApplicationService _appService;
@@ -21,6 +20,7 @@ namespace ComminityNotifier.Api.Controllers
 
         [HttpPost]
         [Route("AddSighting")]
+     
         public async Task<ReportSightingsResponseObject> ReportSightning(int pokemonNumber, int area, string location)
         {
 
@@ -58,59 +58,12 @@ namespace ComminityNotifier.Api.Controllers
             }).ToList();
 
         }
-        [HttpGet]
-        [Route("GetValidAreas")]
-        public async Task<List<AreaDTO>> GetValidAreas()
-        {
-            var areas = await _appService.GetAreas();
+        
 
-            var response = new List<AreaDTO>();
-            foreach (var area in areas)
-            {
-                response.Add(new AreaDTO
-                {
-                    AreaName = area.AreaName,
-                    Id = area.AreaId
-                });
-            }
-            return response;
-
-        }
-
-        [HttpPost]
-        [Route("AddOrUpdateDevice")]
-        public async Task<bool> RegisterOrUpdateDevice(string deviceId ,string registrationId)
-        {
-            if(string.IsNullOrWhiteSpace(registrationId)||string.IsNullOrWhiteSpace(deviceId))
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
-            return await _appService.AddOrUpdateDevice(deviceId,registrationId);
-        }
+       
 
          
-        [HttpGet]
-        [Route("GetNests")]
-        public async Task<List<NestReportDTO>> GetNests()
-        {
-            var nests = await _appService.GetNestReports();
-
-            return nests.Select(n => new NestReportDTO()
-            {
-                Pokemon = new PokemonDTO() {Name = n.Pokemon.PokemonName, Number = n.Pokemon.PokemonNumber},
-                Location = n.Locations.Select(l => new LocationDTO() {Area = l.Area.AreaName, Spot = l.Spot}).ToList()
-
-            }).ToList();
-        }
-
-        [HttpPost]
-        [Route("AddNest")]
-        public async Task<bool> AddNest(int pokemonId, int areaId, string spot)
-        {
-            if (spot.IsNullOrWhiteSpace())
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
-            var result = await _appService.AddNestReport(pokemonId, areaId, spot);
-
-            return result>0;
-        }
+    
 
         private ReportSightingsResponseObject ValidateSightingsReport(int pokemonNumber, string location)
         {
@@ -148,5 +101,4 @@ namespace ComminityNotifier.Api.Controllers
         public string ErrorMessage { get; set; }
         public Guid ResponseKey { get; private set; }
     }
-
 }

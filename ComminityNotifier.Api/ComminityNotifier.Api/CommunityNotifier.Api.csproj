@@ -13,8 +13,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ComminityNotifier.Api</RootNamespace>
-    <AssemblyName>ComminityNotifier.Api</AssemblyName>
+    <RootNamespace>CommunityNotifier.Api</RootNamespace>
+    <AssemblyName>CommunityNotifier.Api</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -278,22 +278,23 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\ApiControllers\AreasController.cs" />
+    <Compile Include="Controllers\ApiControllers\DeviceController.cs" />
+    <Compile Include="Controllers\ApiControllers\NestsController.cs" />
+    <Compile Include="Controllers\ApiControllers\PokemonController.cs" />
     <Compile Include="Models\AreaDTO.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NestsController.cs" />
-    <Compile Include="Controllers\SightingsController.cs" />
+    <Compile Include="Controllers\ApiControllers\SightingsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountBindingModels.cs" />
-    <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\NestListViewModel.cs" />
     <Compile Include="Models\PokemonDTO.cs" />
     <Compile Include="Models\SightingsListViewModel.cs" />
     <Compile Include="Models\SightingsReportDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\ApplicationOAuthProvider.cs" />
-    <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -363,6 +364,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Providers\" />
+    <Folder Include="Results\" />
+    <Folder Include="Views\Areas\" />
+    <Folder Include="Views\Device\" />
+    <Folder Include="Views\Pokemon\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

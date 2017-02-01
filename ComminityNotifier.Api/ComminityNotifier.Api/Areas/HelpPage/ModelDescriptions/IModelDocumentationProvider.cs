@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace ComminityNotifier.Api.Areas.HelpPage.ModelDescriptions
+namespace CommunityNotifier.Api.Areas.HelpPage.ModelDescriptions
 {
     public interface IModelDocumentationProvider
     {

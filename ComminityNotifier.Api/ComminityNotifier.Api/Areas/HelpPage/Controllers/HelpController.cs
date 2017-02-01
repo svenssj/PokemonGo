@@ -1,10 +1,10 @@
 using System;
 using System.Web.Http;
 using System.Web.Mvc;
-using ComminityNotifier.Api.Areas.HelpPage.ModelDescriptions;
-using ComminityNotifier.Api.Areas.HelpPage.Models;
+using CommunityNotifier.Api.Areas.HelpPage.ModelDescriptions;
+using CommunityNotifier.Api.Areas.HelpPage.Models;
 
-namespace ComminityNotifier.Api.Areas.HelpPage.Controllers
+namespace CommunityNotifier.Api.Areas.HelpPage.Controllers
 {
     /// <summary>
     /// The controller that will handle requests for the help page.

@@ -5,9 +5,9 @@ using System.Reflection;
 using System.Web.Http.Controllers;
 using System.Web.Http.Description;
 using System.Xml.XPath;
-using ComminityNotifier.Api.Areas.HelpPage.ModelDescriptions;
+using CommunityNotifier.Api.Areas.HelpPage.ModelDescriptions;
 
-namespace ComminityNotifier.Api.Areas.HelpPage
+namespace CommunityNotifier.Api.Areas.HelpPage
 {
     /// <summary>
     /// A custom <see cref="IDocumentationProvider"/> that reads the API documentation from an XML documentation file.

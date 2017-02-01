@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using ComminityNotifier.Api.Models;
+using CommunityNotifier.Api.Models;
 using CommunityNotifier.Core.ApplicationService;
 
 
-namespace ComminityNotifier.Api.Controllers
+namespace CommunityNotifier.Api.Controllers
 {
     public class HomeController : Controller
     {
@@ -21,7 +22,7 @@ namespace ComminityNotifier.Api.Controllers
         public async Task<ActionResult> Index()
         {
 
-            var sightingsViewModel = new SightingsListViewModel();
+            var sightingsViewModel = new SightingsListViewModel2();
             var sightings = await _applicationService.GetReports();
             sightingsViewModel.Sightings = new List<SightingsReportDTO>();
 

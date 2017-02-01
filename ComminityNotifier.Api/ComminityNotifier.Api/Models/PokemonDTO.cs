@@ -1,4 +1,4 @@
-﻿namespace ComminityNotifier.Api.Models
+﻿namespace CommunityNotifier.Api.Models
 {
     public class PokemonDTO
     {

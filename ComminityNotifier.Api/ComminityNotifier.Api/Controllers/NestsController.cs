@@ -3,10 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using ComminityNotifier.Api.Models;
+using CommunityNotifier.Api.Models;
 using CommunityNotifier.Core.ApplicationService;
 
 
-namespace ComminityNotifier.Api.Controllers
+namespace CommunityNotifier.Api.Controllers
 {
     public class NestsController : Controller
     {

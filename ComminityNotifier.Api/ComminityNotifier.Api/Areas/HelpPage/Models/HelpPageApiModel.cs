@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http.Headers;
 using System.Web.Http.Description;
-using ComminityNotifier.Api.Areas.HelpPage.ModelDescriptions;
+using CommunityNotifier.Api.Areas.HelpPage.ModelDescriptions;
 
-namespace ComminityNotifier.Api.Areas.HelpPage.Models
+namespace CommunityNotifier.Api.Areas.HelpPage.Models
 {
     /// <summary>
     /// The model that represents an API displayed on the help page.

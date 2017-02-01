@@ -4,9 +4,9 @@ using System.Linq;
 using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartup(typeof(ComminityNotifier.Api.Startup))]
+[assembly: OwinStartup(typeof(CommunityNotifier.Api.Startup))]
 
-namespace ComminityNotifier.Api
+namespace CommunityNotifier.Api
 {
     public partial class Startup
     {

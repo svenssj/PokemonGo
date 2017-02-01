@@ -1,4 +1,4 @@
-﻿namespace ComminityNotifier.Api.Controllers
+﻿namespace ComminityNotifier.Api.Models
 {
     public class AreaDTO
     {

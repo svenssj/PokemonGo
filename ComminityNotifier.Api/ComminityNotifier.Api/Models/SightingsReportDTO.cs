@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using ComminityNotifier.Api.Controllers;
+using ComminityNotifier.Api.Models;
 
-namespace ComminityNotifier.Api.Models
+namespace CommunityNotifier.Api.Models
 {
     public class SightingsReportDTO
     {   

@@ -1,4 +1,4 @@
-namespace ComminityNotifier.Api.Areas.HelpPage
+namespace CommunityNotifier.Api.Areas.HelpPage
 {
     /// <summary>
     /// Indicates whether the sample is used for request or response

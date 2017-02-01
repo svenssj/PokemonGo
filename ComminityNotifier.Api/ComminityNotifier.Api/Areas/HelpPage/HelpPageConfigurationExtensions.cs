@@ -11,10 +11,10 @@ using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Description;
-using ComminityNotifier.Api.Areas.HelpPage.ModelDescriptions;
-using ComminityNotifier.Api.Areas.HelpPage.Models;
+using CommunityNotifier.Api.Areas.HelpPage.ModelDescriptions;
+using CommunityNotifier.Api.Areas.HelpPage.Models;
 
-namespace ComminityNotifier.Api.Areas.HelpPage
+namespace CommunityNotifier.Api.Areas.HelpPage
 {
     public static class HelpPageConfigurationExtensions
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace ComminityNotifier.Api.Areas.HelpPage.ModelDescriptions
+namespace CommunityNotifier.Api.Areas.HelpPage.ModelDescriptions
 {
     public class ParameterAnnotation
     {

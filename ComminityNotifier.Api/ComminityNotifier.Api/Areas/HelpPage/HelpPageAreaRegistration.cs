@@ -1,7 +1,7 @@
 using System.Web.Http;
 using System.Web.Mvc;
 
-namespace ComminityNotifier.Api.Areas.HelpPage
+namespace CommunityNotifier.Api.Areas.HelpPage
 {
     public class HelpPageAreaRegistration : AreaRegistration
     {
