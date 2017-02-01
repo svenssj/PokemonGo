@@ -36,7 +36,7 @@ namespace CommunityNotifier.Core.Domain.ExternalService
 
 
             var result = client.Execute(request);
-            return true;
+            return await Task.FromResult(true);
             // return result;
         }
 
