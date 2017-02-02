@@ -19,7 +19,7 @@ namespace CommunityNotifier.Api.Controllers.ApiControllers
         }
 
         [HttpPost]
-        [System.Web.Http.Route("AddOrUpdateDevice")]
+        [Route("AddOrUpdateDevice")]
         public async Task<bool> RegisterOrUpdateDevice(string deviceId, string registrationId)
         {
             if (string.IsNullOrWhiteSpace(registrationId) || string.IsNullOrWhiteSpace(deviceId))
