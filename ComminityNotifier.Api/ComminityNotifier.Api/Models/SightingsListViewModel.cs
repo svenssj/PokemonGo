@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using ComminityNotifier.Api.Models;
 
 namespace CommunityNotifier.Api.Models
 {

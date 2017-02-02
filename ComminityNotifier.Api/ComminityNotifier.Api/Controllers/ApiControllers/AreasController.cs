@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using ComminityNotifier.Api.Models;
+using CommunityNotifier.Api.Models;
 using CommunityNotifier.Core.ApplicationService;
 
 namespace CommunityNotifier.Api.Controllers.ApiControllers
