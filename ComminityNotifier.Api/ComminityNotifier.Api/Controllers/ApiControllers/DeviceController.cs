@@ -8,6 +8,7 @@ using Microsoft.Ajax.Utilities;
 
 namespace CommunityNotifier.Api.Controllers.ApiControllers
 {
+    [RoutePrefix("Devices")]
     public class DeviceController : ApiController
     {
         private readonly ISightnigsApplicationService _appService;
