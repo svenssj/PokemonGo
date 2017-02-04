@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Script.Serialization;
 using CommunityNotifier.Core.ApplicationService;
 using Microsoft.Ajax.Utilities;
 
@@ -29,16 +30,15 @@ namespace CommunityNotifier.Api.Controllers.ApiControllers
 
         [HttpPost]
         [Route("SetDeviceNotificationPreferences")]
-        public async Task<bool>
-   AddOrUpdateNotificationFilter(SetNotificationFilterDTO notificationFilterDTO)
+        public async Task<string>AddOrUpdateNotificationFilter(SetNotificationFilterDTO notificationFilterDTO)
         {
             if (notificationFilterDTO.DeviceId.IsNullOrWhiteSpace())
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
 
             if (!notificationFilterDTO.PokemonIds.Any() || !notificationFilterDTO.AreaIds.Any())
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
-
-            return await _appService.AddOrUpdateNotificationFilter(notificationFilterDTO.DeviceId, notificationFilterDTO.PokemonIds, notificationFilterDTO.AreaIds);
+            
+            return new JavaScriptSerializer().Serialize((await _appService.AddOrUpdateNotificationFilter(notificationFilterDTO.DeviceId, notificationFilterDTO.PokemonIds, notificationFilterDTO.AreaIds)));
         }
         public class SetNotificationFilterDTO
         {
@@ -51,12 +51,12 @@ namespace CommunityNotifier.Api.Controllers.ApiControllers
         [HttpGet]
         public async Task<PreferencesDto> GetUserPreferences(string deviceId)
         {
-           return  new PreferencesDto
+            return new PreferencesDto
             {
                 UserPokemons = (await _appService.GetUserPokemonFilter(deviceId)).Select(p => p.PokemonNumber).ToList(),
                 UserAreas = (await _appService.GetUserAreaFilter(deviceId)).Select(a => a.AreaId).ToList()
             };
-        
+
         }
     }
 

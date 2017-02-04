@@ -25,6 +25,11 @@ namespace CommunityNotifier.Core.Domain.DomainService
             var result = await _repository.SaveChangesAsync();
             if (response == RegisterOrUpdateResponseEnum.Registered)
             {
+                //Adds all pokemons and areas to user preferences since this is the first start.
+                await AddOrUpdateNotificationFilter(deviceId,
+                    (await GetPokemons()).Select(p => p.PokemonNumber).ToList(),
+                    (await GetAreas()).Select(a => a.AreaId).ToList());
+
              await   _firebaseService.SendNotification(new FireBaseNotification { Header = "Registrerad", Body = "Enheten är nu redo att ta emot notifieringar" },regId);
             }
           
@@ -47,7 +52,7 @@ namespace CommunityNotifier.Core.Domain.DomainService
             var devices = await _repository.GetDevicesWithAreaAndPokemon(areaId,pokemonId);
             foreach (var device in devices)
             {
-                var fbResponse = await _firebaseService.SendNotification(new FireBaseNotification()
+                await _firebaseService.SendNotification(new FireBaseNotification()
                 {
                     Body = sighting.Area.AreaName +" - "+ sighting.Locaiton,
                     Header = sighting.Pokemon.PokemonName + " - siktad!"
