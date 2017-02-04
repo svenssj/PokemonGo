@@ -199,7 +199,11 @@ namespace CommunityNotifier.Core.Domain.Repository
 
             var device = await GetDeviceById(deviceId);
 
-            foreach (var currentDevice in (await GetDeviceAreaFiltersAsync()).Where(daf => daf.Device.DeviceId == deviceId))
+            if(device==null)
+                throw new KeyNotFoundException();
+            var allFilters = await GetDeviceAreaFiltersAsync();
+            var currentFilters = allFilters.Where(daf => daf.Device.DeviceId == deviceId).ToList();
+            foreach (var currentDevice in currentFilters)
             {
                 _sightingsContext.DeviceAreaFilter.Remove(currentDevice);
             }
