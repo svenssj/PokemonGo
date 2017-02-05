@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using CommunityNotifier.Api.Models;
 using CommunityNotifier.Core.ApplicationService;
-using Microsoft.Ajax.Utilities;
 
 namespace CommunityNotifier.Api.Controllers.ApiControllers
 {
@@ -19,15 +18,15 @@ namespace CommunityNotifier.Api.Controllers.ApiControllers
             _appService = applicationService;
         }
 
-   
+
 
         [HttpPost]
         [Route("AddSighting")]
      
-        public async Task<ReportSightingsResponseObject> ReportSightning(int pokemonNumber, int area, string location)
+        public async Task<ReportSightingsResponseObject> ReportSightning(AddSightingOrNestDto sightingOrNest)
         {
 
-            var valid = ValidateSightingsReport(pokemonNumber, location).IsValid;
+            var valid = ValidateSightingsReport(sightingOrNest.PokemonNumber, sightingOrNest.Location).IsValid;
             if (!valid)
                 return new ReportSightingsResponseObject
                 {
@@ -35,7 +34,7 @@ namespace CommunityNotifier.Api.Controllers.ApiControllers
                 };
             try
             {
-                await _appService.ReportSighting(pokemonNumber, area, location, DateTime.UtcNow);
+                await _appService.ReportSighting(sightingOrNest.PokemonNumber, sightingOrNest.AreaId, sightingOrNest.Location, DateTime.UtcNow);
 
                 return new ReportSightingsResponseObject();
             }

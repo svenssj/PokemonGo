@@ -251,6 +251,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Models\AddSightingOrNestDto.cs" />
     <Compile Include="Controllers\ApiControllers\AreasController.cs" />
     <Compile Include="Controllers\ApiControllers\DeviceController.cs" />
     <Compile Include="Controllers\ApiControllers\NestsController.cs" />
