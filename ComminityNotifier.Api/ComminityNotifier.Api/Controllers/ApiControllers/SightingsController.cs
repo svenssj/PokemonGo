@@ -70,7 +70,7 @@ namespace CommunityNotifier.Api.Controllers.ApiControllers
         private ReportSightingsResponseObject ValidateSightingsReport(int pokemonNumber, string location)
         {
 
-            if (pokemonNumber < 0 || pokemonNumber > 151)
+            if (pokemonNumber < 0 || pokemonNumber > 251)
                 return new ReportSightingsResponseObject("Pokemon is Invalid");
             if (string.IsNullOrWhiteSpace(location))
                 return new ReportSightingsResponseObject("Location cannot be empty");
