@@ -191,6 +191,10 @@ namespace CommunityNotifier.Core.Domain.Repository
         {
             return await _sightingsContext.Devices.ToListAsync();
         }
+        public async Task<Device> GetDeviceById(string deviceId)
+        {
+            return await _sightingsContext.Devices.FirstOrDefaultAsync(d=>d.DeviceId.ToLower()==deviceId.ToLower());
+        }
 
         public async Task<bool> AddOrUpdateNotificationFilter(string deviceId, List<int> pokemonIds, List<int> areaIds)
         {
@@ -239,10 +243,7 @@ namespace CommunityNotifier.Core.Domain.Repository
             return true;
         }
 
-        private async Task<Device> GetDeviceById(string deviceId)
-        {
-            return await _sightingsContext.Devices.FirstOrDefaultAsync(d => d.DeviceId == deviceId);
-        }
+  
 
         public async Task<List<Device>> GetDevicesWithAreaAndPokemon(int areaId, int pokemonId)
         {
@@ -290,6 +291,7 @@ namespace CommunityNotifier.Core.Domain.Repository
         Task<List<NestReport>> GetNestReportsAsync();
         Task<RegisterOrUpdateResponseEnum> RegisterOrUpdateDevice(string deviceId, string regId);
         Task<List<Device>> GetDevices();
+        Task<Device> GetDeviceById(string deviceId);
         Task<bool> AddOrUpdateNotificationFilter(string deviceId, List<int> pokemonIds, List<int> areaIds);
         Task<List<Device>> GetDevicesWithAreaAndPokemon(int areaId, int pokemonId);
         Task<List<Pokemon>> GetUserPokemonFilter(string deviceId);

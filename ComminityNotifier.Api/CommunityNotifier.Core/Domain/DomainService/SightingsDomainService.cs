@@ -36,13 +36,17 @@ namespace CommunityNotifier.Core.Domain.DomainService
             return result > 0;
         }
 
-        public async Task<int> AddSightingsReport(int pokemonId, int areaId, string location, DateTime reportTime)
+        public async Task<int> AddSightingsReport(int pokemonId, int areaId, string location, string deviceId, DateTime reportTime)
         {
+
+            if (! await CheckDeviceExists(deviceId))
+                return 0;
             var sighting = new SightingsReport
             {
                 Area = (await GetAreas()).FirstOrDefault(a => a.AreaId == areaId),
                 Pokemon = await GetPokemonByNumber(pokemonId),
                 Locaiton = location,
+                DeviceId = deviceId,
                 ReportTime = reportTime
             };
             _repository.AddReport(sighting);
@@ -59,6 +63,14 @@ namespace CommunityNotifier.Core.Domain.DomainService
                 }, device.RegistrationId);
             }
             return repoResponse;
+        }
+
+        private async Task<bool> CheckDeviceExists(string deviceId)
+        {
+            var device =  await _repository.GetDeviceById(deviceId);
+            if (device == null)
+                return false;
+            return true;
         }
 
         private async Task<Pokemon> GetPokemonByNumber(int pokemonNuber)

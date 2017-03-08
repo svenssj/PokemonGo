@@ -17,6 +17,7 @@ namespace CommunityNotifier.Core.Domain.Model
         public virtual Area Area { get; set; }
         public string Locaiton { get; set; }
         public DateTime ReportTime { get; set; }
+        public string DeviceId { get; set; }
         public int Iv { get; set; }
         public string FastMove { get; set; }
         public string ChargeMove { get; set; }

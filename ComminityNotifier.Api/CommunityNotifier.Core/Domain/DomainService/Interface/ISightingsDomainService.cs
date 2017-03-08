@@ -7,7 +7,7 @@ namespace CommunityNotifier.Core.Domain.DomainService.Interface
 {
     public interface ISightingsDomainService
     {
-        Task<int> AddSightingsReport(int pokemonId, int areaId, string location, DateTime reportTime);
+        Task<int> AddSightingsReport(int pokemonId, int areaId, string location,string deviceId, DateTime reportTime);
         Task<List<SightingsReport>> GetSightingReports();
         Task<List<Area>>  GetAreas();
         Task<List<Pokemon>> GetPokemons();

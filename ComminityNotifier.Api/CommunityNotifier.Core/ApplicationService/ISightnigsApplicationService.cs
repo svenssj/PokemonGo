@@ -7,7 +7,7 @@ namespace CommunityNotifier.Core.ApplicationService
 {
     public interface ISightnigsApplicationService
     {
-        Task<int> ReportSighting(int pokemonId, int areaId, string location,DateTime reportTime);
+        Task<int> ReportSighting(int pokemonId, int areaId, string location, string deviceId, DateTime reportTime);
         Task<List<SightingsReport>> GetReports();
         Task<List<Area>> GetAreas();
         Task<List<Pokemon>>  GetPokemons();

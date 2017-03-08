@@ -26,7 +26,7 @@ namespace CommunityNotifier.Api.Controllers.ApiControllers
         public async Task<ReportSightingsResponseObject> ReportSightning(AddSightingOrNestDto sightingOrNest)
         {
 
-            var valid = ValidateSightingsReport(sightingOrNest.PokemonNumber, sightingOrNest.Location).IsValid;
+            var valid = ValidateSightingsReport(sightingOrNest.PokemonNumber, sightingOrNest.Location,sightingOrNest.DeviceId).IsValid;
             if (!valid)
                 return new ReportSightingsResponseObject
                 {
@@ -34,7 +34,7 @@ namespace CommunityNotifier.Api.Controllers.ApiControllers
                 };
             try
             {
-                await _appService.ReportSighting(sightingOrNest.PokemonNumber, sightingOrNest.AreaId, sightingOrNest.Location, DateTime.UtcNow);
+                await _appService.ReportSighting(sightingOrNest.PokemonNumber, sightingOrNest.AreaId, sightingOrNest.Location,sightingOrNest.DeviceId , DateTime.UtcNow);
 
                 return new ReportSightingsResponseObject();
             }
@@ -62,18 +62,18 @@ namespace CommunityNotifier.Api.Controllers.ApiControllers
         }
         
 
-       
-
          
     
 
-        private ReportSightingsResponseObject ValidateSightingsReport(int pokemonNumber, string location)
+        private ReportSightingsResponseObject ValidateSightingsReport(int pokemonNumber, string location,string deviceId)
         {
 
             if (pokemonNumber < 0 || pokemonNumber > 251)
-                return new ReportSightingsResponseObject("Pokemon is Invalid");
+                return new ReportSightingsResponseObject("Pokemon is invalid");
             if (string.IsNullOrWhiteSpace(location))
                 return new ReportSightingsResponseObject("Location cannot be empty");
+            if(string.IsNullOrWhiteSpace(deviceId))
+                return new ReportSightingsResponseObject("DeviceId cannot be empty");
 
             return new ReportSightingsResponseObject();
 

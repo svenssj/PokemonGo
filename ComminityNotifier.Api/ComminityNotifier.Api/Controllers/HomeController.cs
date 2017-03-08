@@ -58,7 +58,7 @@ namespace CommunityNotifier.Api.Controllers
         {
             try
             {
-               await _applicationService.ReportSighting(pokemon, areaId, location, DateTime.UtcNow);
+               await _applicationService.ReportSighting(pokemon, areaId, location,"", DateTime.UtcNow);
             }
             catch (Exception)
             {
