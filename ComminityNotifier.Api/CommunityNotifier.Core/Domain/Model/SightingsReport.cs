@@ -18,6 +18,7 @@ namespace CommunityNotifier.Core.Domain.Model
         public string Locaiton { get; set; }
         public DateTime ReportTime { get; set; }
         public string DeviceId { get; set; }
+        //Might be used in the future.
         public int Iv { get; set; }
         public string FastMove { get; set; }
         public string ChargeMove { get; set; }
