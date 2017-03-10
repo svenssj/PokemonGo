@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Data;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace CommunityNotifier.Core.Domain.Model
 {
@@ -8,5 +8,8 @@ namespace CommunityNotifier.Core.Domain.Model
         [Key]
         public string DeviceId { get; set; }
         public string RegistrationId { get; set; }
+
+        public bool Disabled { get; set; }
+        public DateTime DisabledDate { get; set; }
     }
 }

@@ -138,21 +138,25 @@ namespace CommunityNotifier.Core.Domain.Repository
             query = query.Include("Pokemon");
             return await query.ToListAsync();
         }
-        private async Task<List<DeviceAreaFilter>> GetDeviceAreaFiltersAsync()
+        private async Task<List<DeviceAreaFilter>> GetDeviceAreaFiltersAsync(bool includeDisabled=false)
         {
 
             IQueryable<DeviceAreaFilter> query = _sightingsContext.DeviceAreaFilter;
             query = query.Include("Device");
             query = query.Include("Area");
+            if(includeDisabled)
             return await query.ToListAsync();
+            return await query.Where(daf=>daf.Device.Disabled==false).ToListAsync();
         }
-        private async Task<List<DevicePokemonFilter>> GetDevicePokemonFilterAsync()
+        private async Task<List<DevicePokemonFilter>> GetDevicePokemonFilterAsync(bool includeDisabled=false)
         {
 
             IQueryable<DevicePokemonFilter> query = _sightingsContext.DevicePokemonFilter;
             query = query.Include("Device");
             query = query.Include("Pokemon");
-            return await query.ToListAsync();
+            if (includeDisabled)
+                return await query.ToListAsync();
+            return await query.Where(dpf => dpf.Device.Disabled == false).ToListAsync();
         }
 
         public async Task<RegisterOrUpdateResponseEnum> RegisterOrUpdateDevice(string deviceId, string regId)

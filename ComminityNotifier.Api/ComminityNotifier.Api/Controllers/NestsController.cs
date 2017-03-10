@@ -60,6 +60,8 @@ namespace CommunityNotifier.Api.Controllers
 
         public async Task<ActionResult> AddNestReport(int pokemonid, int areaid, string spot)
         {
+
+        //   TODO: check DeviceId
             try
             {
   await _applicationService.AddNestReport(pokemonid, areaid, spot);
@@ -73,3 +75,4 @@ namespace CommunityNotifier.Api.Controllers
         }
     }
 }
+

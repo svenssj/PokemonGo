@@ -39,8 +39,11 @@ namespace CommunityNotifier.Core.Domain.DomainService
         public async Task<int> AddSightingsReport(int pokemonId, int areaId, string location, string deviceId, DateTime reportTime)
         {
 
-            if (! await CheckDeviceExists(deviceId))
-                return 0;
+            var reportingDevice = await _repository.GetDeviceById(deviceId);
+            if (reportingDevice == null)
+                throw new KeyNotFoundException("Enheten: "+deviceId + " kunde inte hittas");
+            if(reportingDevice.Disabled)
+                throw new InvalidOperationException("Enheten "+deviceId + " nekades att slutföra operationen");
             var sighting = new SightingsReport
             {
                 Area = (await GetAreas()).FirstOrDefault(a => a.AreaId == areaId),
@@ -65,13 +68,6 @@ namespace CommunityNotifier.Core.Domain.DomainService
             return repoResponse;
         }
 
-        private async Task<bool> CheckDeviceExists(string deviceId)
-        {
-            var device =  await _repository.GetDeviceById(deviceId);
-            if (device == null)
-                return false;
-            return true;
-        }
 
         private async Task<Pokemon> GetPokemonByNumber(int pokemonNuber)
         {
