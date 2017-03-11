@@ -11,7 +11,7 @@ namespace CommunityNotifier.Core.Domain.DomainService.Interface
         Task<List<SightingsReport>> GetSightingReports();
         Task<List<Area>>  GetAreas();
         Task<List<Pokemon>> GetPokemons();
-        Task<int> AddNestReport(int pokemonid, int areaId, string location);
+        Task<int> AddNestReport(int pokemonid, int areaId, string location,string deviceId);
         Task<List<NestReport>> GetNestReports();
         Task<bool> AddOrUpdateDevice(string deviceId, string reg_id);
         Task<bool> AddOrUpdateNotificationFilter(string deviceId, List<int> pokemonIds, List<int> areaIds);

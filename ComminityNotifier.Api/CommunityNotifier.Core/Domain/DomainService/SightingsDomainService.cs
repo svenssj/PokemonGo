@@ -89,9 +89,11 @@ namespace CommunityNotifier.Core.Domain.DomainService
             return await _repository.GetPokemons();
         }
 
-        public async Task<int> AddNestReport(int pokemonid, int areaId, string spot)
+        public async Task<int> AddNestReport(int pokemonid, int areaId, string spot,string deviceId)
         {
-            
+            var device = await _repository.GetDeviceById(deviceId);
+            if (device == null || device.Disabled)
+                return 0;
              await _repository.AddNestReport( pokemonid,  areaId,  spot);
             return await _repository.SaveChangesAsync();
 

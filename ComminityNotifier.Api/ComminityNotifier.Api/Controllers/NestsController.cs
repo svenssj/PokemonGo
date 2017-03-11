@@ -64,7 +64,7 @@ namespace CommunityNotifier.Api.Controllers
         //   TODO: check DeviceId
             try
             {
-  await _applicationService.AddNestReport(pokemonid, areaid, spot);
+  await _applicationService.AddNestReport(pokemonid, areaid, spot,"");
                 return RedirectToAction("Index", "Nests");
             }
             catch (Exception)

@@ -37,9 +37,9 @@ namespace CommunityNotifier.Core.ApplicationService
             return await _sightingsDomainService.GetPokemons();
         }
 
-        public async Task<int> AddNestReport(int pokemonId, int areaId, string spot)
+        public async Task<int> AddNestReport(int pokemonId, int areaId, string spot,string deviceId)
         {
-            return await _sightingsDomainService.AddNestReport(pokemonId, areaId, spot);
+            return await _sightingsDomainService.AddNestReport(pokemonId, areaId, spot,deviceId);
         }
 
         public async Task<List<NestReport>> GetNestReports()

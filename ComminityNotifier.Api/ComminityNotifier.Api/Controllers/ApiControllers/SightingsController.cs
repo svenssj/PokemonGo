@@ -23,7 +23,7 @@ namespace CommunityNotifier.Api.Controllers.ApiControllers
         [HttpPost]
         [Route("AddSighting")]
      
-        public async Task<ReportSightingsResponseObject> ReportSightning(AddSightingOrNestDto sightingOrNest)
+        public  ReportSightingsResponseObject ReportSightning(AddSightingOrNestDto sightingOrNest)
         {
 
             var valid = ValidateSightingsReport(sightingOrNest.PokemonNumber, sightingOrNest.Location,sightingOrNest.DeviceId).IsValid;
@@ -34,7 +34,7 @@ namespace CommunityNotifier.Api.Controllers.ApiControllers
                 };
             try
             {
-                await _appService.ReportSighting(sightingOrNest.PokemonNumber, sightingOrNest.AreaId, sightingOrNest.Location,sightingOrNest.DeviceId , DateTime.UtcNow);
+                 _appService.ReportSighting(sightingOrNest.PokemonNumber, sightingOrNest.AreaId, sightingOrNest.Location,sightingOrNest.DeviceId , DateTime.UtcNow);
 
                 return new ReportSightingsResponseObject();
             }

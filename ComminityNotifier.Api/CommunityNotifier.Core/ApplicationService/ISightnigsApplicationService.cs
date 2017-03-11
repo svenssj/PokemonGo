@@ -12,7 +12,7 @@ namespace CommunityNotifier.Core.ApplicationService
         Task<List<Area>> GetAreas();
         Task<List<Pokemon>>  GetPokemons();
         Task<List<NestReport>>  GetNestReports();
-        Task<int> AddNestReport(int pokemonid, int areaid, string spot);
+        Task<int> AddNestReport(int pokemonid, int areaid, string spot,string deviceId);
         Task<bool> AddOrUpdateDevice(string deviceId,string registrationId);
 
 

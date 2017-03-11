@@ -37,10 +37,10 @@ namespace CommunityNotifier.Api.Controllers.ApiControllers
         public async Task<bool> AddNest(AddSightingOrNestDto nestSightingOrNest)
         {
 
-            //TODO: Check deviceID
+            
             if (string.IsNullOrWhiteSpace(nestSightingOrNest.Location))
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
-            var result = await _appService.AddNestReport(nestSightingOrNest.PokemonNumber, nestSightingOrNest.AreaId, nestSightingOrNest.Location);
+            var result = await _appService.AddNestReport(nestSightingOrNest.PokemonNumber, nestSightingOrNest.AreaId, nestSightingOrNest.Location, nestSightingOrNest.DeviceId);
 
             return result > 0;
         }
