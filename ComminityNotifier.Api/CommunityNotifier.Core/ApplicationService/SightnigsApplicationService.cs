@@ -66,5 +66,12 @@ namespace CommunityNotifier.Core.ApplicationService
         {
             return await _sightingsDomainService.GetUserAreaFilter(deviceId);
         }
+
+   
+
+        public  Task SetDisabledState(string deviceId, bool disabledState)
+        {
+            return  _sightingsDomainService.SetDisabledState(deviceId, disabledState);
+        }
     }
 }

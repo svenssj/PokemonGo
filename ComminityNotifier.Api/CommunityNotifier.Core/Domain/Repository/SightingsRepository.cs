@@ -195,7 +195,7 @@ namespace CommunityNotifier.Core.Domain.Repository
         {
             return await _sightingsContext.Devices.ToListAsync();
         }
-        public async Task<Device> GetDeviceById(string deviceId)
+        public async Task<Device> GetDeviceByIdOrNull(string deviceId)
         {
             return await _sightingsContext.Devices.FirstOrDefaultAsync(d=>d.DeviceId.ToLower()==deviceId.ToLower());
         }
@@ -205,7 +205,7 @@ namespace CommunityNotifier.Core.Domain.Repository
             var pokemons = await GetPokemons();
             var areas = await GetAreasAsList();
 
-            var device = await GetDeviceById(deviceId);
+            var device = await GetDeviceByIdOrNull(deviceId);
 
             if(device==null)
                 throw new KeyNotFoundException();
@@ -275,6 +275,16 @@ namespace CommunityNotifier.Core.Domain.Repository
             var deviceFilter = (_sightingsContext.DeviceAreaFilter).Where(dpf => dpf.Device.DeviceId == deviceId);
             return await deviceFilter.Select(df => df.Area).ToListAsync();
         }
+
+    
+
+        public async Task SetDisabledState(string deviceId, bool disabledState)
+        {
+            var device = await GetDeviceByIdOrNull(deviceId);
+            if (device == null)
+                throw new KeyNotFoundException(String.Format("Enheten med id: {0} kunde inte hittas", deviceId));
+            device.Disabled = disabledState;
+        }
     }
 
     internal interface IRepository : IDisposable
@@ -295,11 +305,12 @@ namespace CommunityNotifier.Core.Domain.Repository
         Task<List<NestReport>> GetNestReportsAsync();
         Task<RegisterOrUpdateResponseEnum> RegisterOrUpdateDevice(string deviceId, string regId);
         Task<List<Device>> GetDevices();
-        Task<Device> GetDeviceById(string deviceId);
+        Task<Device> GetDeviceByIdOrNull(string deviceId);
         Task<bool> AddOrUpdateNotificationFilter(string deviceId, List<int> pokemonIds, List<int> areaIds);
         Task<List<Device>> GetDevicesWithAreaAndPokemon(int areaId, int pokemonId);
         Task<List<Pokemon>> GetUserPokemonFilter(string deviceId);
         Task<List<Area>> GetUserAreaFilter(string deviceId);
+        Task SetDisabledState(string deviceId,bool disabledState);
     }
 
     public class SightingsContext : DbContext
