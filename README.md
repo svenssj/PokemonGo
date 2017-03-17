@@ -34,6 +34,7 @@ Jonathan Svensson
 
 ### Mobile Application 
 iOS - Martin Nordström
+
 Android - Jonathan Svensson
  
 
