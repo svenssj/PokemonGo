@@ -1,3 +1,4 @@
+
 # PokemonGo
 PokemonGo Community Reports
 
@@ -13,5 +14,26 @@ Notifications are sent to the user if the conditions are met*:
 - The user is subscribed to the Pokemon being reported
 - The user is subscribed to the Area being reported.
 
+## iOS
+The iOS application is currently under development by Martin Norström.
+Project can be fround [here](https://github.com/Martinnord/Sightsings-Vasteras)
+
+## Android
+The Android application is currently in beta and can be found [here](https://play.google.com/store/apps/details?id=com.svenssjj.sightingsvasteras)
+
+# Project
+## Plan
+[Trello Project boards](https://trello.com/sightingsvasteras)
+
+## Roles
+### Technical Lead
+Jonathan Svensson
+### API & Web
+Jonathan Svensson
+
+
+### Mobile Application 
+iOS - Martin Nordström
+Android - Jonathan Svensson
  
 
