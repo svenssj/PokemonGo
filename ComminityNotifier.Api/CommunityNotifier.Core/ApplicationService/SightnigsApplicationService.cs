@@ -16,7 +16,7 @@ namespace CommunityNotifier.Core.ApplicationService
             _sightingsDomainService = sightingsDomainService;
         }
 
-        public async Task<int> ReportSighting(int pokemonId, int areaId,string deviceId, string location, DateTime reportTime)
+        public async Task<int> ReportSighting(int pokemonId, int areaId, string location, string deviceId, DateTime reportTime)
         {
             
             return await _sightingsDomainService.AddSightingsReport(pokemonId,areaId,location,deviceId,reportTime);
