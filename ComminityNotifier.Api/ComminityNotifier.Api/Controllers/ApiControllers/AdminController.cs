@@ -6,6 +6,7 @@ using CommunityNotifier.Core.ApplicationService;
 
 namespace CommunityNotifier.Api.Controllers.ApiControllers
 {
+    [RoutePrefix("Admin")]
     public class AdminController : ApiController{ 
 
             private readonly ISightnigsApplicationService _sightingsApplicationService;
@@ -15,7 +16,8 @@ namespace CommunityNotifier.Api.Controllers.ApiControllers
         _sightingsApplicationService = sightingsApplicationService;
     }
     
-        
+        [HttpPost]
+        [Route("SetDeviceDisabledState")]
         // ReSharper disable once UnusedParameter.Global
         public async Task<bool> SetDeviceDisabledState(string deviceId,bool disabledState, string authToken)
         {
@@ -32,7 +34,8 @@ namespace CommunityNotifier.Api.Controllers.ApiControllers
             }
             return true;
         }
-
+        [HttpPost]
+        [Route("RemoveNestsOlderThanDate")]
         public async Task<int> RemoveNestsBeforeDate(DateTime date,string authToken )
         {
             if (authToken != ConfigurationManager.AppSettings.Get("AdminAuth"))

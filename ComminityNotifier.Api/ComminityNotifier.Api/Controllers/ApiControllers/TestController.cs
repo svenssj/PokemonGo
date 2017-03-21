@@ -5,6 +5,7 @@ using CommunityNotifier.Api.Models;
 
 namespace CommunityNotifier.Api.Controllers.ApiControllers
 {
+    [RoutePrefix("Test")]
     public class TestController : ApiController
     {
         private ReportSightingsResponseObject ValidateSightingsReport(int pokemonNumber, string location, string deviceId)
