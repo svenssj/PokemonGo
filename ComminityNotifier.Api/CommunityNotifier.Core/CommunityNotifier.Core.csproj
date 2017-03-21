@@ -108,6 +108,10 @@
     <Compile Include="Migrations\201701311854021_notificationfilters.Designer.cs">
       <DependentUpon>201701311854021_notificationfilters.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703111412070_DeviceAuth.cs" />
+    <Compile Include="Migrations\201703111412070_DeviceAuth.Designer.cs">
+      <DependentUpon>201703111412070_DeviceAuth.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\SeedHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -136,6 +140,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201701311854021_notificationfilters.resx">
       <DependentUpon>201701311854021_notificationfilters.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703111412070_DeviceAuth.resx">
+      <DependentUpon>201703111412070_DeviceAuth.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

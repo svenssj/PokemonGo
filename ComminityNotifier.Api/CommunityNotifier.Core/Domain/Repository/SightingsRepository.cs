@@ -138,21 +138,25 @@ namespace CommunityNotifier.Core.Domain.Repository
             query = query.Include("Pokemon");
             return await query.ToListAsync();
         }
-        private async Task<List<DeviceAreaFilter>> GetDeviceAreaFiltersAsync()
+        private async Task<List<DeviceAreaFilter>> GetDeviceAreaFiltersAsync(bool includeDisabled=false)
         {
 
             IQueryable<DeviceAreaFilter> query = _sightingsContext.DeviceAreaFilter;
             query = query.Include("Device");
             query = query.Include("Area");
+            if(includeDisabled)
             return await query.ToListAsync();
+            return await query.Where(daf=>daf.Device.Disabled==false).ToListAsync();
         }
-        private async Task<List<DevicePokemonFilter>> GetDevicePokemonFilterAsync()
+        private async Task<List<DevicePokemonFilter>> GetDevicePokemonFilterAsync(bool includeDisabled=false)
         {
 
             IQueryable<DevicePokemonFilter> query = _sightingsContext.DevicePokemonFilter;
             query = query.Include("Device");
             query = query.Include("Pokemon");
-            return await query.ToListAsync();
+            if (includeDisabled)
+                return await query.ToListAsync();
+            return await query.Where(dpf => dpf.Device.Disabled == false).ToListAsync();
         }
 
         public async Task<RegisterOrUpdateResponseEnum> RegisterOrUpdateDevice(string deviceId, string regId)
@@ -191,13 +195,17 @@ namespace CommunityNotifier.Core.Domain.Repository
         {
             return await _sightingsContext.Devices.ToListAsync();
         }
+        public async Task<Device> GetDeviceByIdOrNull(string deviceId)
+        {
+            return await _sightingsContext.Devices.FirstOrDefaultAsync(d=>d.DeviceId.ToLower()==deviceId.ToLower());
+        }
 
         public async Task<bool> AddOrUpdateNotificationFilter(string deviceId, List<int> pokemonIds, List<int> areaIds)
         {
             var pokemons = await GetPokemons();
             var areas = await GetAreasAsList();
 
-            var device = await GetDeviceById(deviceId);
+            var device = await GetDeviceByIdOrNull(deviceId);
 
             if(device==null)
                 throw new KeyNotFoundException();
@@ -239,10 +247,7 @@ namespace CommunityNotifier.Core.Domain.Repository
             return true;
         }
 
-        private async Task<Device> GetDeviceById(string deviceId)
-        {
-            return await _sightingsContext.Devices.FirstOrDefaultAsync(d => d.DeviceId == deviceId);
-        }
+  
 
         public async Task<List<Device>> GetDevicesWithAreaAndPokemon(int areaId, int pokemonId)
         {
@@ -270,6 +275,38 @@ namespace CommunityNotifier.Core.Domain.Repository
             var deviceFilter = (_sightingsContext.DeviceAreaFilter).Where(dpf => dpf.Device.DeviceId == deviceId);
             return await deviceFilter.Select(df => df.Area).ToListAsync();
         }
+
+    
+
+        public async Task SetDisabledState(string deviceId, bool disabledState)
+        {
+            var device = await GetDeviceByIdOrNull(deviceId);
+            if (device == null)
+                throw new KeyNotFoundException(String.Format("Enheten med id: {0} kunde inte hittas", deviceId));
+            device.Disabled = disabledState;
+        }
+
+        public async Task<int> RemoveNestsBeforeDate(DateTime date)
+        {
+            var nests = await GetNestReportsAsync();
+            var totalRemoved = 0;
+
+            foreach (var nestReport in nests)
+            {
+                var locationsToRemove = new List<int>();
+                foreach (var nestReportLocation in nestReport.Locations)
+                {
+                    if (nestReportLocation.LocationTimeStamp < date)
+                    {
+                        locationsToRemove.Add(nestReportLocation.Id);
+                    }
+                }
+             totalRemoved +=   nestReport.Locations.RemoveAll(l => locationsToRemove.Contains(l.Id));
+            }
+            nests.RemoveAll(n => !n.Locations.Any());
+
+            return totalRemoved;
+        }
     }
 
     internal interface IRepository : IDisposable
@@ -290,10 +327,13 @@ namespace CommunityNotifier.Core.Domain.Repository
         Task<List<NestReport>> GetNestReportsAsync();
         Task<RegisterOrUpdateResponseEnum> RegisterOrUpdateDevice(string deviceId, string regId);
         Task<List<Device>> GetDevices();
+        Task<Device> GetDeviceByIdOrNull(string deviceId);
         Task<bool> AddOrUpdateNotificationFilter(string deviceId, List<int> pokemonIds, List<int> areaIds);
         Task<List<Device>> GetDevicesWithAreaAndPokemon(int areaId, int pokemonId);
         Task<List<Pokemon>> GetUserPokemonFilter(string deviceId);
         Task<List<Area>> GetUserAreaFilter(string deviceId);
+        Task SetDisabledState(string deviceId,bool disabledState);
+        Task<int> RemoveNestsBeforeDate(DateTime date);
     }
 
     public class SightingsContext : DbContext

@@ -31,6 +31,7 @@ namespace CommunityNotifier.Core.Domain.ExternalService
             request.AddHeader("Content-Type", "application/json");
             request.AddHeader("Authorization", key);
 
+            //TODO: Replace with registration_ids   https://firebase.google.com/docs/cloud-messaging/http-server-ref
             var body = "{\"to\" : \"" + deviceId + "\"," + "\"notification\": {\"body\": \"" + notification.Body + "\",    \"sound\": \"default\",    \"title\": \"" + notification.Header + "\" }     }";
             request.AddParameter("application/json", body, ParameterType.RequestBody);
 

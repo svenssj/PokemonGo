@@ -251,6 +251,9 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ApiControllers\AdminController.cs" />
+    <Compile Include="Controllers\ApiControllers\TestController.cs" />
+    <Compile Include="Controllers\AppsController.cs" />
     <Compile Include="Models\AddSightingOrNestDto.cs" />
     <Compile Include="Controllers\ApiControllers\AreasController.cs" />
     <Compile Include="Controllers\ApiControllers\DeviceController.cs" />
@@ -315,15 +318,14 @@
     <Content Include="Service References\Application Insights\ConnectedService.json" />
     <Content Include="Views\Home\Partials\View.cshtml" />
     <Content Include="Views\Nests\Index.cshtml" />
+    <Content Include="Views\Apps\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\" />
     <Folder Include="Providers\" />
     <Folder Include="Results\" />
-    <Folder Include="Views\Areas\" />
-    <Folder Include="Views\Device\" />
-    <Folder Include="Views\Pokemon\" />
+    <Folder Include="Views\Test\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

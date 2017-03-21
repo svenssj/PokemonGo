@@ -16,10 +16,10 @@ namespace CommunityNotifier.Core.ApplicationService
             _sightingsDomainService = sightingsDomainService;
         }
 
-        public async Task<int> ReportSighting(int pokemonId, int areaId, string location, DateTime reportTime)
+        public async Task<int> ReportSighting(int pokemonId, int areaId,string deviceId, string location, DateTime reportTime)
         {
             
-            return await _sightingsDomainService.AddSightingsReport(pokemonId,areaId,location,reportTime);
+            return await _sightingsDomainService.AddSightingsReport(pokemonId,areaId,location,deviceId,reportTime);
         }
 
         public async Task<List<SightingsReport>> GetReports()
@@ -37,9 +37,9 @@ namespace CommunityNotifier.Core.ApplicationService
             return await _sightingsDomainService.GetPokemons();
         }
 
-        public async Task<int> AddNestReport(int pokemonId, int areaId, string spot)
+        public async Task<int> AddNestReport(int pokemonId, int areaId, string spot,string deviceId)
         {
-            return await _sightingsDomainService.AddNestReport(pokemonId, areaId, spot);
+            return await _sightingsDomainService.AddNestReport(pokemonId, areaId, spot,deviceId);
         }
 
         public async Task<List<NestReport>> GetNestReports()
@@ -65,6 +65,18 @@ namespace CommunityNotifier.Core.ApplicationService
         public async Task<List<Area>> GetUserAreaFilter(string deviceId)
         {
             return await _sightingsDomainService.GetUserAreaFilter(deviceId);
+        }
+
+   
+
+        public  Task SetDisabledState(string deviceId, bool disabledState)
+        {
+            return  _sightingsDomainService.SetDisabledState(deviceId, disabledState);
+        }
+
+        public Task<int> RemoveNestsBeforeDate(DateTime date)
+        {
+            return await _sightingsDomainService.RemoveNestsBeforeDate(date);
         }
     }
 }

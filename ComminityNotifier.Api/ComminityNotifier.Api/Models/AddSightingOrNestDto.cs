@@ -5,5 +5,6 @@ namespace CommunityNotifier.Api.Models
         public int PokemonNumber { get; set; }
         public int AreaId { get; set; }
         public string Location { get; set; }
+        public string DeviceId { get; set; }
     }
 }

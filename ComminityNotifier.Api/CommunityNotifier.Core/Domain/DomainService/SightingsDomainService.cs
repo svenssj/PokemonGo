@@ -13,15 +13,16 @@ namespace CommunityNotifier.Core.Domain.DomainService
     {
         private readonly IRepository _repository;
         private readonly IFirebaseService _firebaseService;
+
         public SightingsDomainService(IRepository repository, IFirebaseService firebaseService)
         {
             _repository = repository;
             _firebaseService = firebaseService;
         }
 
-        public async Task<bool> AddOrUpdateDevice(string deviceId,  string regId)
+        public async Task<bool> AddOrUpdateDevice(string deviceId, string regId)
         {
-         var response =  await _repository.RegisterOrUpdateDevice(deviceId, regId);
+            var response = await _repository.RegisterOrUpdateDevice(deviceId, regId);
             var result = await _repository.SaveChangesAsync();
             if (response == RegisterOrUpdateResponseEnum.Registered)
             {
@@ -30,36 +31,50 @@ namespace CommunityNotifier.Core.Domain.DomainService
                     (await GetPokemons()).Select(p => p.PokemonNumber).ToList(),
                     (await GetAreas()).Select(a => a.AreaId).ToList());
 
-             await   _firebaseService.SendNotification(new FireBaseNotification { Header = "Registrerad", Body = "Enheten är nu redo att ta emot notifieringar" },regId);
+                await _firebaseService.SendNotification(
+                    new FireBaseNotification
+                    {
+                        Header = "Registrerad",
+                        Body = "Enheten är nu redo att ta emot notifieringar"
+                    }, regId);
             }
-          
+
             return result > 0;
         }
 
-        public async Task<int> AddSightingsReport(int pokemonId, int areaId, string location, DateTime reportTime)
+        public async Task<int> AddSightingsReport(int pokemonId, int areaId, string location, string deviceId,
+            DateTime reportTime)
         {
+
+            var reportingDevice = await _repository.GetDeviceByIdOrNull(deviceId);
+            if (reportingDevice == null)
+                throw new KeyNotFoundException("Enheten: " + deviceId + " kunde inte hittas");
+            if (reportingDevice.Disabled)
+                throw new InvalidOperationException("Enheten " + deviceId + " nekades att slutföra operationen");
             var sighting = new SightingsReport
             {
                 Area = (await GetAreas()).FirstOrDefault(a => a.AreaId == areaId),
                 Pokemon = await GetPokemonByNumber(pokemonId),
                 Locaiton = location,
+                DeviceId = deviceId,
                 ReportTime = reportTime
             };
             _repository.AddReport(sighting);
             var repoResponse = await _repository.SaveChangesAsync();
 
             if (repoResponse <= 0) return repoResponse;
-            var devices = await _repository.GetDevicesWithAreaAndPokemon(areaId,pokemonId);
+            var devices = await _repository.GetDevicesWithAreaAndPokemon(areaId, pokemonId);
             foreach (var device in devices)
             {
                 await _firebaseService.SendNotification(new FireBaseNotification()
                 {
-                    Body = sighting.Area.AreaName +" - "+ sighting.Locaiton,
+                    Body = sighting.Area.AreaName + " - " + sighting.Locaiton,
                     Header = sighting.Pokemon.PokemonName + " - siktad!"
                 }, device.RegistrationId);
             }
             return repoResponse;
         }
+
 
         private async Task<Pokemon> GetPokemonByNumber(int pokemonNuber)
         {
@@ -81,10 +96,12 @@ namespace CommunityNotifier.Core.Domain.DomainService
             return await _repository.GetPokemons();
         }
 
-        public async Task<int> AddNestReport(int pokemonid, int areaId, string spot)
+        public async Task<int> AddNestReport(int pokemonid, int areaId, string spot, string deviceId)
         {
-            
-             await _repository.AddNestReport( pokemonid,  areaId,  spot);
+            var device = await _repository.GetDeviceByIdOrNull(deviceId);
+            if (device == null || device.Disabled)
+                return 0;
+            await _repository.AddNestReport(pokemonid, areaId, spot);
             return await _repository.SaveChangesAsync();
 
         }
@@ -96,7 +113,7 @@ namespace CommunityNotifier.Core.Domain.DomainService
 
         public async Task<bool> AddOrUpdateNotificationFilter(string deviceId, List<int> pokemonIds, List<int> areaIds)
         {
-           var repoResult = await _repository.AddOrUpdateNotificationFilter(deviceId, pokemonIds, areaIds);
+            var repoResult = await _repository.AddOrUpdateNotificationFilter(deviceId, pokemonIds, areaIds);
             if (!repoResult)
                 return false;
             var saveChangesResult = await _repository.SaveChangesAsync();
@@ -112,5 +129,20 @@ namespace CommunityNotifier.Core.Domain.DomainService
         {
             return await _repository.GetUserAreaFilter(deviceId);
         }
-    }
+
+        public async Task SetDisabledState(string deviceId,bool disabledState)
+        {
+            await _repository.SetDisabledState(deviceId,disabledState);
+            await _repository.SaveChangesAsync();
+
+        }
+
+        public async Task<int> RemoveNestsBeforeDate(DateTime date)
+        {
+            var result = await _repository.RemoveNestsBeforeDate(date);
+            await _repository.SaveChangesAsync();
+            return result;
+            
+        }
+    }   
 }

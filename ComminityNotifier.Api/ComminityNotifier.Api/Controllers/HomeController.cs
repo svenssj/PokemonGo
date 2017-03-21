@@ -54,11 +54,14 @@ namespace CommunityNotifier.Api.Controllers
         }
 
 
-        public async Task<ActionResult> AddReport(int pokemon, int areaId, string location)
+        public async Task<ActionResult> AddReport(int pokemon, int areaId, string location,string deviceId)
         {
+
+            if(string.IsNullOrWhiteSpace(deviceId))
+                return new HttpStatusCodeResult(500);
             try
             {
-               await _applicationService.ReportSighting(pokemon, areaId, location, DateTime.UtcNow);
+               await _applicationService.ReportSighting(pokemon, areaId, location,deviceId, DateTime.UtcNow);
             }
             catch (Exception)
             {
