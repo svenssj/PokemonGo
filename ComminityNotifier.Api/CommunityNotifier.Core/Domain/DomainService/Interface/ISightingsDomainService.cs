@@ -18,5 +18,6 @@ namespace CommunityNotifier.Core.Domain.DomainService.Interface
         Task<List<Pokemon>> GetUserPokemonFilter(string deviceId);
         Task<List<Area>> GetUserAreaFilter(string deviceId);
         Task SetDisabledState(string deviceId,bool disabledState);
+        Task<int> RemoveNestsBeforeDate(DateTime date);
     }
 }

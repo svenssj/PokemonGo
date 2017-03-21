@@ -73,5 +73,10 @@ namespace CommunityNotifier.Core.ApplicationService
         {
             return  _sightingsDomainService.SetDisabledState(deviceId, disabledState);
         }
+
+        public Task<int> RemoveNestsBeforeDate(DateTime date)
+        {
+            return await _sightingsDomainService.RemoveNestsBeforeDate(date);
+        }
     }
 }

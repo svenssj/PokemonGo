@@ -136,5 +136,13 @@ namespace CommunityNotifier.Core.Domain.DomainService
             await _repository.SaveChangesAsync();
 
         }
+
+        public async Task<int> RemoveNestsBeforeDate(DateTime date)
+        {
+            var result = await _repository.RemoveNestsBeforeDate(date);
+            await _repository.SaveChangesAsync();
+            return result;
+            
+        }
     }   
 }

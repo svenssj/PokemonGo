@@ -252,6 +252,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ApiControllers\AdminController.cs" />
+    <Compile Include="Controllers\ApiControllers\TestController.cs" />
     <Compile Include="Controllers\AppsController.cs" />
     <Compile Include="Models\AddSightingOrNestDto.cs" />
     <Compile Include="Controllers\ApiControllers\AreasController.cs" />
@@ -324,6 +325,7 @@
     <Folder Include="Areas\" />
     <Folder Include="Providers\" />
     <Folder Include="Results\" />
+    <Folder Include="Views\Test\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

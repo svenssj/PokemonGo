@@ -20,5 +20,6 @@ namespace CommunityNotifier.Core.ApplicationService
         Task<List<Area>> GetUserAreaFilter(string deviceId);
         Task<bool> AddOrUpdateNotificationFilter(string deviceId, List<int> pokemonIds, List<int> areaIds);
         Task SetDisabledState(string deviceId, bool disabledState);
+        Task<int> RemoveNestsBeforeDate(DateTime date);
     }
 }

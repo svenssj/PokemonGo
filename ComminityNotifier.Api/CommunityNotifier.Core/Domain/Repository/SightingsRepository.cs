@@ -285,6 +285,28 @@ namespace CommunityNotifier.Core.Domain.Repository
                 throw new KeyNotFoundException(String.Format("Enheten med id: {0} kunde inte hittas", deviceId));
             device.Disabled = disabledState;
         }
+
+        public async Task<int> RemoveNestsBeforeDate(DateTime date)
+        {
+            var nests = await GetNestReportsAsync();
+            var totalRemoved = 0;
+
+            foreach (var nestReport in nests)
+            {
+                var locationsToRemove = new List<int>();
+                foreach (var nestReportLocation in nestReport.Locations)
+                {
+                    if (nestReportLocation.LocationTimeStamp < date)
+                    {
+                        locationsToRemove.Add(nestReportLocation.Id);
+                    }
+                }
+             totalRemoved +=   nestReport.Locations.RemoveAll(l => locationsToRemove.Contains(l.Id));
+            }
+            nests.RemoveAll(n => !n.Locations.Any());
+
+            return totalRemoved;
+        }
     }
 
     internal interface IRepository : IDisposable
@@ -311,6 +333,7 @@ namespace CommunityNotifier.Core.Domain.Repository
         Task<List<Pokemon>> GetUserPokemonFilter(string deviceId);
         Task<List<Area>> GetUserAreaFilter(string deviceId);
         Task SetDisabledState(string deviceId,bool disabledState);
+        Task<int> RemoveNestsBeforeDate(DateTime date);
     }
 
     public class SightingsContext : DbContext

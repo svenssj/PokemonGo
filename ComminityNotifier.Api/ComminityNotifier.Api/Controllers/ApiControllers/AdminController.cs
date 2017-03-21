@@ -32,5 +32,20 @@ namespace CommunityNotifier.Api.Controllers.ApiControllers
             }
             return true;
         }
+
+        public async Task<int> RemoveNestsBeforeDate(DateTime date,string authToken )
+        {
+            if (authToken != ConfigurationManager.AppSettings.Get("AdminAuth"))
+                throw new UnauthorizedAccessException();
+            try
+            {
+              return await  _sightingsApplicationService.RemoveNestsBeforeDate(date);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
     }
 }
