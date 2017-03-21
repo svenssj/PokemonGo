@@ -19,7 +19,6 @@ namespace CommunityNotifier.Api.Controllers.ApiControllers
         }
 
 
-
         [HttpPost]
         [Route("AddSighting")]
      
