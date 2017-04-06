@@ -59,7 +59,7 @@ namespace CommunityNotifier.Core.Domain.DomainService
                 DeviceId = deviceId,
                 ReportTime = reportTime
             };
-            _repository.AddReport(sighting);
+                _repository.AddReport(sighting);
             var repoResponse = await _repository.SaveChangesAsync();
 
             if (repoResponse <= 0) return repoResponse;
@@ -98,10 +98,16 @@ namespace CommunityNotifier.Core.Domain.DomainService
 
         public async Task<int> AddNestReport(int pokemonid, int areaId, string spot, string deviceId)
         {
-            var device = await _repository.GetDeviceByIdOrNull(deviceId);
+            //TODO:remove
+            if (deviceId != "")
+            {
+                var device = await _repository.GetDeviceByIdOrNull(deviceId);
+            
             if (device == null || device.Disabled)
                 return 0;
-            await _repository.AddNestReport(pokemonid, areaId, spot);
+        }
+
+        await _repository.AddNestReport(pokemonid, areaId, spot);
             return await _repository.SaveChangesAsync();
 
         }
